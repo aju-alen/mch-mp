@@ -15,7 +15,7 @@ const Hero = () => {
           <h1 className="text-xl md:text-xl lg:text-xl xl:text-xl 2xl:text-6xl font-extrabold text-white leading-tight mb-4 uppercase">
             "A NEW FUTURE FOR FUNYULA BEGINS<br/>RIGHT NOW."
           </h1>
-          <h3 className=" text-xl bg-blue-700 2xl:text-6xl 2xl:bg-red-600"> Hellos</h3>
+
           <p className="text-xl md:text-2xl font-semibold text-white mb-8">
           MICHAEL H. MUGENYA, incoming Member of Parliament for Funyula Constituency.
           </p>
