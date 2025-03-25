@@ -1,14 +1,6 @@
 const Hero = () => {
   return (
-    <section
-      id="main"
-      className="relative bg-cover bg-center pt-32 pb-44 md:pt-40 md:pb-56 lg:pt-80 lg:pb-64"
-      style={{
-        backgroundImage: "url('https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+    <div  className="relative h-screen flex items-center justify-center bg-[url('https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg')] bg-cover bg-center bg-no-repeat">
       <div className="absolute inset-0 bg-black/40" ></div>
       <div className=" container  md:bottom-12 md:right-16 relative z-10 ">
         <div className="max-w-2xl ">
@@ -38,7 +30,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
