@@ -12,7 +12,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40" ></div>
       <div className=" container  md:bottom-12 md:right-16 relative z-10 ">
         <div className="max-w-3xl ">
-          <h1 className="text-3xl md:text-xl lg:text-xl xl:text-xl font-extrabold text-white leading-tight mb-4 uppercase">
+          <h1 className="text-3xl md:text-xl lg:text-xl xl:text-6xl font-extrabold text-white leading-tight mb-4 uppercase">
             "A NEW FUTURE FOR FUNYULA BEGINS<br/>RIGHT NOW."
           </h1>
           <p className="text-xl md:text-2xl font-semibold text-white mb-8">
