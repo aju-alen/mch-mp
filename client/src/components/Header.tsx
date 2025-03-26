@@ -13,7 +13,7 @@ const Header = () => {
       {/* Text message banner */}
       <div className="bg-trump-maingreen text-white text-center py-3 text-sm font-bold">
         <a href="sms://88022;?&body=%20TRUMP" className="hover:underline">
-          TEXT MUGENYA 2027 TO 88022!
+          TEXT MUGENYA TO 88022!
         </a>
         <a href="#main" className="sr-only">Skip to main content</a>
       </div>
