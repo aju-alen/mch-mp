@@ -45,14 +45,17 @@ const PlatformPage = () => {
 
       {/* Red Box Call-to-Action */}
       <div className="bg-trump-red text-white py-6 px-4 text-center w-3/5 mx-auto z-20">
-        <p className="text-lg md:text-xl font-semibold">READ THE OFFICIAL 2027 FUTURE-PROOF FUNYULA PLATFORM <a href="#" className="underline">HERE</a></p>
-        <p className="text-xl md:text-2xl font-bold mt-4">
-        Hon. Mugenya’s 9 FOCUS POINTS TO RESTORE THE GLORY OF SAMIA!
-        </p>
+        <h4 className="text-lg md:text-2xl font-bold">READ THE OFFICIAL 2027 FUTURE-PROOF FUNYULA PLATFORM <a href="#" className="underline">HERE</a></h4>
+        <h4 className="text-xl md:text-3xl font-bold mt-4">
+        Hon. Mugenya’s 9 FOCUS POINTS 
+        </h4>
+        <h4 className="text-xl md:text-2xl font-bold mt-4">
+         TO RESTORE THE GLORY OF SAMIA!
+        </h4>
       </div>
 
       {/* Platform Items List */}
-      <div className="max-w-4xl mx-auto py-8 px-4">
+      <div className="max-w-4xl mx-auto pt-24 px-4 ">
         {platformItems.map((item, index) => (
           <div key={index} className="flex mb-6">
             <div className="bg-trump-blue text-white font-bold w-10 h-10 flex justify-center items-center flex-shrink-0">
@@ -66,9 +69,9 @@ const PlatformPage = () => {
       </div>
 
       {/* Read More Button */}
-      <div className="max-w-4xl mx-auto pb-12 px-4">
+      <div className="max-w-4xl mx-auto pb-12 px-4 pt-8">
         <a href="#" className="bg-trump-red text-white py-3 md:py-4 px-4 md:px-8 font-bold flex items-center justify-center w-full md:w-[600px] mx-auto">
-          <span>Read More</span>
+          <span>Read more about the 2027 Future-Proof Funyula Platform</span>
           <span className="ml-4">→</span>
         </a>
       </div>

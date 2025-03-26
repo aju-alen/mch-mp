@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Agenda47 = () => {
   return (
     <section className="pt-32 pb-20 bg-trump-light-primary text-trump-light-navy relative">
@@ -21,15 +23,15 @@ const Agenda47 = () => {
             <p className="text-base md:text-lg mb-8 text-gray-700 leading-relaxed">
             To make clear that commitment, my proposal offers the Samia people the Funyula 2027 Roadmap to make Funyula Constituency future-proof, and restore the fabric of the glorious Samia! It is a vision that begins with the following nine focus points that I will accomplish very quickly post the 2027 election win. I will collaborate with professionals from the community, respected elder statesmen and women of Samia, and both elected and appointed officials, including Permanent Secretaries (PSs), Principal Secretaries (PSs), Provincial Commissioners (PCs), Deputy County Commissioners (DCs), District Officers (DOs), Members of Parliament (MPs), Members of County Assembly (MCAs), Councillors, and Chiefs from the Constituency.
             </p>
-            <a
-              href="/platform"
+            <Link
+              to="/platform"
               className="inline-flex items-center border border-trump-light-accent text-trump-light-accent hover:bg-trump-light-accent hover:text-white px-8 py-3 uppercase font-bold transition-colors"
             >
               <span>PLATFORM</span>
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
               </svg>
-            </a>
+            </Link>
           </div>
           <div className="lg:w-1/2">
             <img
