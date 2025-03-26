@@ -17,14 +17,13 @@ const Hero = () => {
           px-4 
           xl:px-0
         ">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
+          <h1 className="text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
             font-extrabold 
             text-white 
             leading-tight 
             mb-4 
-            uppercase 
-            text-center 
-            md:text-left
+            uppercase  
+            text-left
             break-words
           ">
             "A NEW FUTURE FOR FUNYULA BEGINS<br/>RIGHT NOW."
@@ -34,8 +33,7 @@ const Hero = () => {
             font-semibold 
             text-white 
             mb-6 
-            text-center 
-            xl:text-left
+            text-left
           ">
             MICHAEL H. MUGENYA, incoming Member of Parliament for Funyula Constituency.
           </p>
@@ -65,7 +63,7 @@ const Hero = () => {
               SUPPORT THE CAUSE 
             </a>
             <a
-              href="/join"
+              href="/get-involved"
               className="border-2 
                 border-white 
                 text-white 

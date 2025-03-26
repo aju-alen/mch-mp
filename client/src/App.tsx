@@ -47,7 +47,7 @@ function App() {
         element: <GaleryPage />,
       },
       {
-        path: "volunteer",
+        path: "get-involved",
         element: <VolunteerPage />,
       },
     ]

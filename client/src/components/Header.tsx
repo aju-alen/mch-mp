@@ -40,7 +40,7 @@ const Header = () => {
                 <Link to="/platform" className="nav-link text-sm">VISION</Link>
                 <Link to="/upcoming-projects" className="nav-link text-sm">UPCOMING PROJECTS</Link>
                 <Link to="/gallery" className="nav-link text-sm">GALLERY</Link>
-                <Link to="/volunteer" className="nav-link text-sm">GET INVOLVED </Link>
+                <Link to="/get-involved" className="nav-link text-sm">GET INVOLVED </Link>
               </nav>
 
               {/* Action Buttons */}
@@ -92,7 +92,7 @@ const Header = () => {
               <Link to="/platform" className="nav-link">VISION</Link>
               <Link to="/upcoming-projects" className="nav-link">UPCOMING PROJECTS</Link>
               <Link to="/galery" className="nav-link">GALLERY</Link>
-              <Link to="/volunteer" className="nav-link">GET INVOLVED</Link>
+              <Link to="/get-involved" className="nav-link">GET INVOLVED</Link>
 
 
 
@@ -103,15 +103,7 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                CONTRIBUTE
-              </a>
-              <a
-                href="https://secure.winred.com/trump-national-committee-jfc/storefront/"
-                className="text-trump-light-blue font-medium"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                SHOP
+                SUPPORT THE CAUSE
               </a>
             </nav>
           )}
