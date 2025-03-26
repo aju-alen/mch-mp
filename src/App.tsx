@@ -2,6 +2,7 @@ import { createBrowserRouter, BrowserRouter as Router, Routes, Route,RouterProvi
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
+import PlatformPage from './pages/Platform';
 
 function App() {
 
@@ -24,6 +25,10 @@ function App() {
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "platform",
+        element: <PlatformPage />,
       },
     ]
   }]);

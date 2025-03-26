@@ -23,24 +23,24 @@ const Header = () => {
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex-shrink-0">
-              {/* <Link to="/">
+              <Link to="/">
                 <img
-                  src="https://ext.same-assets.com/697774200/2762527609.png"
+                  src="https://i.postimg.cc/cL5MWGTh/logo.png"
                   alt="Trump Logo"
-                  className="h-10 md:h-12"
+                  className="h-10 md:h-24"
                 />
-              </Link> */}
-              LOGO
+              </Link>
+              
             </div>
 
             <div className="flex items-center">
               {/* Desktop Navigation */}
               <nav className="hidden lg:flex items-center space-x-6 mr-4">
-                <Link to="/platform" className="nav-link text-sm">NEWS</Link>
-                <Link to="/news" className="nav-link text-sm">VISION</Link>
+                <Link to="/news" className="nav-link text-sm">NEWS</Link>
+                <Link to="/vision" className="nav-link text-sm">VISION</Link>
                 <Link to="/events" className="nav-link text-sm">UPCOMING PROJECTS</Link>
-                <Link to="/join" className="nav-link text-sm">GALLERY</Link>
-                <Link to="/join" className="nav-link text-sm">GET INVOLVED </Link>
+                <Link to="/gallery" className="nav-link text-sm">GALLERY</Link>
+                <Link to="/get-involved" className="nav-link text-sm">GET INVOLVED </Link>
               </nav>
 
               {/* Action Buttons */}

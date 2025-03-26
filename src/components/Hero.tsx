@@ -5,12 +5,11 @@ const Hero = () => {
       <div className="container relative z-10 
         md:absolute 
         md:bottom-72
-        bottom 
+        bottom-0 
         md:right-18
+        px-4 
         xl:px-4 
         2xl:px-0
-
-
       ">
         <div className="max-w-2xl 
           mx-auto 
@@ -18,22 +17,23 @@ const Hero = () => {
           px-4 
           xl:px-0
         ">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
             font-extrabold 
             text-white 
             leading-tight 
             mb-4 
             uppercase 
             text-center 
-            xl:text-left
+            md:text-left
+            break-words
           ">
             "A NEW FUTURE FOR FUNYULA BEGINS<br/>RIGHT NOW."
           </h1>
 
-          <p className="text-xl md:text-2xl 
+          <p className="text-lg sm:text-xl md:text-2xl 
             font-semibold 
             text-white 
-            mb-8 
+            mb-6 
             text-center 
             xl:text-left
           ">
@@ -44,6 +44,7 @@ const Hero = () => {
             xl:justify-start
           ">
             <a
+              href="#support"
               className="btn-primary 
                 w-full 
                 sm:w-auto 
@@ -51,6 +52,12 @@ const Hero = () => {
                 max-w-[300px] 
                 mx-auto 
                 xl:mx-0
+                py-3
+                px-6
+                uppercase
+                tracking-wider
+                transition-all
+                duration-200
               "
               target="_blank"
               rel="noopener noreferrer"
@@ -66,7 +73,7 @@ const Hero = () => {
                 hover:text-trump-light-navy 
                 font-bold 
                 py-3 
-                px-8 
+                px-6 
                 uppercase 
                 tracking-wider 
                 transition-all 
@@ -79,7 +86,7 @@ const Hero = () => {
                 xl:mx-0
               "
             >
-              VOLUNTEER
+              GET INVOLVED
             </a>
           </div>
         </div>
