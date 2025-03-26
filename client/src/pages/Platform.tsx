@@ -35,27 +35,26 @@ const PlatformPage = () => {
     <div className="font-montserrat text-trump-blue">
 
       {/* Hero Section */}
-      <div className="relative h-[200px] sm:h-[250px] md:h-[400px] bg-cover bg-center" style={{
-        backgroundImage: `url('https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg')`
-      }}>
+      <div className="relative h-screen flex items-center justify-center bg-[url('https://i.postimg.cc/XYvrdJYf/platform.jpg')] bg-cover bg-center bg-no-repeat">
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center px-4 mb-2 sm:mb-4">VISION 2027</h1>
         </div>
       </div>
 
       {/* Red Box Call-to-Action */}
-      <div className="bg-trump-red text-white py-6 px-4 text-center w-3/5 mx-auto z-20">
-        <h4 className="text-lg md:text-2xl font-bold">READ THE OFFICIAL 2027 FUTURE-PROOF FUNYULA PLATFORM <a href="#" className="underline">HERE</a></h4>
-        <h4 className="text-xl md:text-3xl font-bold mt-4">
-        Hon. Mugenya’s 9 FOCUS POINTS 
-        </h4>
-        <h4 className="text-xl md:text-2xl font-bold mt-4">
-         TO RESTORE THE GLORY OF SAMIA!
+      <div className="bg-trump-red  text-white py-6 md:px-4 text-center md:w-3/5 mx-auto z-20">
+        <h4 className=" text-sm md:text-2xl font-bold">READ THE OFFICIAL 2027 FUTURE-PROOF FUNYULA PLATFORM <a href="#" className="underline">HERE</a></h4>
+        <h4 className="text-sm md:text-3xl
+          px-4
+          font-bold 
+          mt-4
+          ">
+        Hon. Mugenya’s 9 FOCUS POINTS TO RESTORE THE GLORY OF SAMIA!
         </h4>
       </div>
 
       {/* Platform Items List */}
-      <div className="max-w-4xl mx-auto pt-24 px-4 ">
+      <div className="max-w-4xl mx-auto pt-16 px-4 ">
         {platformItems.map((item, index) => (
           <div key={index} className="flex mb-6">
             <div className="bg-trump-blue text-white font-bold w-10 h-10 flex justify-center items-center flex-shrink-0">
