@@ -10,6 +10,7 @@ const Hero = () => {
         px-4 
         xl:px-4 
         2xl:px-0
+        mb-10 md:mb-0
       ">
         <div className="max-w-2xl 
           mx-auto 
@@ -17,10 +18,10 @@ const Hero = () => {
           px-4 
           xl:px-0
         ">
-          <h1 className="text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
-            font-extrabold 
+          <h1 className="text-2xl  md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
+            font-black md:font-extrabold  
             text-white 
-            leading-tight 
+            leading-tight
             mb-4 
             uppercase  
             text-left
@@ -29,7 +30,7 @@ const Hero = () => {
             "A NEW FUTURE FOR FUNYULA BEGINS<br/>RIGHT NOW."
           </h1>
 
-          <p className="text-lg sm:text-xl md:text-2xl 
+          <p className="text-[1rem] sm:text-xl md:text-2xl 
             font-semibold 
             text-white 
             mb-6 
