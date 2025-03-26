@@ -64,7 +64,7 @@ const VolunteerPage = () => {
             The forgotten men and women are the heart and soul of our incredible movement to Make America Great Again. The only force strong enough to defeat the massive corruption we are up against is you, the American People. In order to restore the fabric of our glorious nation, we need every patriot to support our campaign and make your voices heard.
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={(e) => handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <input
                 type="text"
@@ -127,7 +127,7 @@ const VolunteerPage = () => {
                 name="state"
                 className="border border-gray-300 p-3 w-full bg-white"
                 value={formData.state}
-                onChange={handleChange}
+                onChange={()=>handleChange}
                 required
               >
                 <option value="">STATE *</option>
@@ -223,10 +223,10 @@ const VolunteerPage = () => {
             <textarea
               name="message"
               placeholder="MESSAGE"
-              rows="5"
+              rows={5}
               className="w-full border border-gray-300 p-3"
               value={formData.message}
-              onChange={handleChange}
+              onChange={()=>handleChange}
             ></textarea>
 
             <div className="flex items-start">

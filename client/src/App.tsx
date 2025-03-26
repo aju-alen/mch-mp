@@ -4,7 +4,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import PlatformPage from './pages/Platform';
 import NewsPage from './pages/NewsPage';
-import Upcomingprojectspage from './pages/Upcomingprojectspage';
+import Upcomingprojectspage from './pages/UpcomingProjectsPage';
 import GaleryPage from './pages/GaleryPage';
 import VolunteerPage from './pages/VolunteerPage';
 
