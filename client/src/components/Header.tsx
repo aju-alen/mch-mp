@@ -11,14 +11,14 @@ const Header = () => {
   return (
     <>
       {/* Text message banner */}
-      <div className="bg-trump-mainblue text-white text-center py-3 text-sm font-bold">
+      <div className="bg-trump-maingreen text-white text-center py-3 text-sm font-bold">
         <a href="sms://88022;?&body=%20TRUMP" className="hover:underline">
           TEXT MUGENYA 2027 TO 88022!
         </a>
         <a href="#main" className="sr-only">Skip to main content</a>
       </div>
 
-      <header className="bg-white sticky top-0 z-50 shadow-sm">
+      <header className="bg-white border-b-4 border-trump-maingreen sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             {/* Logo */}
@@ -37,10 +37,10 @@ const Header = () => {
               {/* Desktop Navigation */}
               <nav className="hidden lg:flex items-center space-x-6 mr-4">
                 <Link to="/news" className="nav-link text-sm">NEWS</Link>
-                <Link to="/vision" className="nav-link text-sm">VISION</Link>
-                <Link to="/events" className="nav-link text-sm">UPCOMING PROJECTS</Link>
+                <Link to="/platform" className="nav-link text-sm">VISION</Link>
+                <Link to="/upcoming-projects" className="nav-link text-sm">UPCOMING PROJECTS</Link>
                 <Link to="/gallery" className="nav-link text-sm">GALLERY</Link>
-                <Link to="/get-involved" className="nav-link text-sm">GET INVOLVED </Link>
+                <Link to="/volunteer" className="nav-link text-sm">GET INVOLVED </Link>
               </nav>
 
               {/* Action Buttons */}
@@ -88,10 +88,15 @@ const Header = () => {
           {/* Mobile Menu */}
           {mobileMenuOpen && (
             <nav className="lg:hidden mt-4 pb-4 border-t border-gray-200 pt-4 flex flex-col space-y-4">
-              <Link to="/platform" className="nav-link">PLATFORM</Link>
               <Link to="/news" className="nav-link">NEWS</Link>
-              <Link to="/events" className="nav-link">EVENTS</Link>
-              <Link to="/join" className="nav-link">GET INVOLVED</Link>
+              <Link to="/platform" className="nav-link">VISION</Link>
+              <Link to="/upcoming-projects" className="nav-link">UPCOMING PROJECTS</Link>
+              <Link to="/galery" className="nav-link">GALLERY</Link>
+              <Link to="/volunteer" className="nav-link">GET INVOLVED</Link>
+
+
+
+             
               <a
                 href="https://secure.winred.com/trump-national-committee-jfc/lp-website-contribute-button-victory"
                 className="text-trump-light-accent font-medium"

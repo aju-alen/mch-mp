@@ -23,7 +23,7 @@ const HomePage = () => {
       <div className="z-10 mt-0">
         <Agenda47 />
         {/* <VideoSection /> */}
-        {/* <ProductsSection /> */}
+        <ProductsSection />
         {/* <SocialLinks /> */}
       </div>
 

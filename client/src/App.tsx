@@ -3,6 +3,10 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import PlatformPage from './pages/Platform';
+import NewsPage from './pages/NewsPage';
+import Upcomingprojectspage from './pages/Upcomingprojectspage';
+import GaleryPage from './pages/GaleryPage';
+import VolunteerPage from './pages/VolunteerPage';
 
 function App() {
 
@@ -29,6 +33,22 @@ function App() {
       {
         path: "platform",
         element: <PlatformPage />,
+      },
+      {
+        path: "news",
+        element: <NewsPage />,
+      },
+      {
+        path: "upcoming-projects",
+        element: <Upcomingprojectspage />,
+      },
+      {
+        path: "gallery",
+        element: <GaleryPage />,
+      },
+      {
+        path: "volunteer",
+        element: <VolunteerPage />,
       },
     ]
   }]);
