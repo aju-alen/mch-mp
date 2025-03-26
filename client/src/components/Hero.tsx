@@ -18,7 +18,7 @@ const Hero = () => {
           px-4 
           xl:px-0
         ">
-          <h1 className="text-2xl  md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
+          <h1 className="text-3xl  md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
             font-black md:font-extrabold  
             text-white 
             leading-tight
