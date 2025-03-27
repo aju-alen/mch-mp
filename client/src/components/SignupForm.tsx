@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 interface SignupFormProps {
   variant?: 'default' | 'footer';
@@ -10,14 +11,15 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
   const [subLocation, setSubLocation] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', { fullName, location, subLocation, phoneNumber });
     setFullName('');
     setLocation('');
     setSubLocation('');
     setPhoneNumber('');
-    alert('Thank you! Your copy is being downloaded.');
+
+    // const verifyPhoneNumber = axios.get() 
   };
 
   if (variant === 'footer') {

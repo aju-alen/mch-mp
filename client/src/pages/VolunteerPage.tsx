@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
+import { ChevronRightIcon, UserPlusIcon } from 'lucide-react';
 
 const VolunteerPage = () => {
   const [formData, setFormData] = useState({
@@ -7,70 +9,95 @@ const VolunteerPage = () => {
     lastName: '',
     email: '',
     phone: '',
-    zip: '',
-    city: '',
-    state: '',
+    location: '',
+    subLocation: '',
     message: '',
-    interests: [],
     privacyPolicy: false
   });
 
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
-      if (name === 'privacyPolicy') {
-        setFormData({ ...formData, [name]: checked });
-      } else {
-        // Handle interest checkboxes
-        const updatedInterests = checked
-          ? [...formData.interests, name]
-          : formData.interests.filter(interest => interest !== name);
-        setFormData({ ...formData, interests: updatedInterests });
-      }
-    } else {
-      setFormData({ ...formData, [name]: value });
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    if (!formData.privacyPolicy) {
+      setErrorMessage('Please agree to the privacy policy');
+      return;
+    }
+    
+    try { 
+      const sendVolunteerResponse = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/submit`, formData);
+      setSuccessMessage(sendVolunteerResponse.data.message);
+      
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        location: '',
+        subLocation: '',
+        message: '',
+        privacyPolicy: false
+      });
+    } catch(error) {
+      setErrorMessage('An error occurred, please try again later');
+      console.error(error);
     }
   };
 
-  const handleSubmit = (e:React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    // Handle form submission - replace with your integration logic
-    console.log(formData);
-  };
-
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-
-      {/* Main content */}
-      <div className="flex-1">
-        {/* Background hero image with overlay text */}
-        <div className="relative">
-          <img
-            src="https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg"
-            alt="Trump campaign"
-            className="w-full h-[400px] object-cover"
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="bg-[#d61936] text-white px-6 py-4 text-center w-full max-w-4xl mx-auto mt-32">
-              <h1 className="text-4xl font-bold mb-2">SIGN UP TO VOLUNTEER!</h1>
-              <h2 className="text-2xl font-semibold">HELP PRESIDENT TRUMP MAKE AMERICA GREAT AGAIN!</h2>
-            </div>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Hero Section */}
+      <div className="relative h-[60vh] bg-cover bg-center bg-no-repeat" 
+           style={{backgroundImage: 'url(https://i.postimg.cc/KY204G4P/get-involved.jpg)'}}>
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <div className="text-center text-white px-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 uppercase">
+              Join Our Movement
+            </h1>
+            <p className="text-xl md:text-2xl max-w-2xl mx-auto">
+              Help Hon. Mugenya Restore the Lost Glory of Samia
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* Volunteer form section */}
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <p className="text-[#263a66] mb-6">
-            The forgotten men and women are the heart and soul of our incredible movement to Make America Great Again. The only force strong enough to defeat the massive corruption we are up against is you, the American People. In order to restore the fabric of our glorious nation, we need every patriot to support our campaign and make your voices heard.
-          </p>
+      {/* Content Section */}
+      <div className="max-w-4xl mx-auto  py-12">
+        {/* Inspirational Text */}
+        <div className="bg-trump-red  text-white   text-center w-5/6 md:w-5/5 mx-auto z-20">
+        <h4 className=" text-sm md:text-2xl font-bold">SIGN UP TO JOIN VOLUNTEERS LIKE YOU!</h4>
+        <h4 className="text-sm md:text-3xl
+          px-4
+          font-bold 
+          mt-4
+          ">
+       HELP HON. MUGENYA RESTORE THE LOST GLORY OF SAMIA!
+        </h4>
+      </div>
 
-          <form onSubmit={(e) => handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Volunteer Form */}
+        <div className="bg-white shadow-xl rounded-lg p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name and Contact Inputs */}
+            <div className="grid md:grid-cols-3 gap-4">
               <input
                 type="text"
                 name="firstName"
-                placeholder="FIRST NAME *"
-                className="border border-gray-300 p-3 w-full"
+                placeholder="First Name"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d61936]/50 focus:outline-none"
                 value={formData.firstName}
                 onChange={handleChange}
                 required
@@ -78,8 +105,8 @@ const VolunteerPage = () => {
               <input
                 type="text"
                 name="lastName"
-                placeholder="LAST NAME *"
-                className="border border-gray-300 p-3 w-full"
+                placeholder="Last Name"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d61936]/50 focus:outline-none"
                 value={formData.lastName}
                 onChange={handleChange}
                 required
@@ -87,200 +114,110 @@ const VolunteerPage = () => {
               <input
                 type="email"
                 name="email"
-                placeholder="EMAIL *"
-                className="border border-gray-300 p-3 w-full"
+                placeholder="Email Address"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d61936]/50 focus:outline-none"
                 value={formData.email}
                 onChange={handleChange}
                 required
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* Location Inputs */}
+            <div className="grid md:grid-cols-3 gap-4">
               <input
                 type="tel"
                 name="phone"
-                placeholder="PHONE *"
-                className="border border-gray-300 p-3 w-full"
+                placeholder="Phone Number"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d61936]/50 focus:outline-none"
                 value={formData.phone}
                 onChange={handleChange}
                 required
               />
               <input
                 type="text"
-                name="zip"
-                placeholder="ZIP *"
-                className="border border-gray-300 p-3 w-full"
-                value={formData.zip}
+                name="location"
+                placeholder="Location"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d61936]/50 focus:outline-none"
+                value={formData.location}
                 onChange={handleChange}
                 required
               />
               <input
                 type="text"
-                name="city"
-                placeholder="CITY *"
-                className="border border-gray-300 p-3 w-full"
-                value={formData.city}
+                name="subLocation"
+                placeholder="Sub Location"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d61936]/50 focus:outline-none"
+                value={formData.subLocation}
                 onChange={handleChange}
                 required
               />
-              <select
-                name="state"
-                className="border border-gray-300 p-3 w-full bg-white"
-                value={formData.state}
-                onChange={()=>handleChange}
-                required
-              >
-                <option value="">STATE *</option>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                {/* Add all states here */}
-                <option value="WY">Wyoming</option>
-              </select>
             </div>
 
-            <div className="space-y-3">
-              <h3 className="font-medium">I'm Interested In</h3>
-              <div className="space-y-2">
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="targetedOutreach"
-                    name="targetedOutreach"
-                    className="mt-1 mr-2"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="targetedOutreach">Targeted Voter Outreach in my Neighborhood</label>
-                </div>
-
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="calling"
-                    name="calling"
-                    className="mt-1 mr-2"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="calling">Calling Targeted Voters</label>
-                </div>
-
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="pollWatching"
-                    name="pollWatching"
-                    className="mt-1 mr-2"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="pollWatching">Poll Watching</label>
-                </div>
-
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="trumpCaptain"
-                    name="trumpCaptain"
-                    className="mt-1 mr-2"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="trumpCaptain" className="flex items-start">
-                    <span>Be a Trump Captain!</span>
-                    <img
-                      src="https://ext.same-assets.com/697774200/610408731.png"
-                      alt="Trump Captain"
-                      className="h-5 ml-2"
-                    />
-                  </label>
-                </div>
-                <p className="text-sm text-gray-600 ml-6">
-                  Trump Captains will be responsible for turning out targeted voters from a list provided by to them. They are vital to victory in November.
-                </p>
-
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="yardSigns"
-                    name="yardSigns"
-                    className="mt-1 mr-2"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="yardSigns">Deliver Yard Signs to my Neighbors</label>
-                </div>
-
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="houseParty"
-                    name="houseParty"
-                    className="mt-1 mr-2"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="houseParty">Host a House Party</label>
-                </div>
-              </div>
-            </div>
-
+            {/* Message Textarea */}
             <textarea
               name="message"
-              placeholder="MESSAGE"
+              placeholder="Your Message"
               rows={5}
-              className="w-full border border-gray-300 p-3"
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d61936]/50 focus:outline-none"
               value={formData.message}
-              onChange={()=>handleChange}
+              onChange={handleChange}
             ></textarea>
 
-            <div className="flex items-start">
+            {/* Privacy Policy Checkbox */}
+            <div className="flex items-start space-x-3">
               <input
                 type="checkbox"
                 id="privacyPolicy"
                 name="privacyPolicy"
-                className="mt-1 mr-2"
+                className="mt-1 text-[#d61936] focus:ring-[#d61936] rounded"
                 onChange={handleChange}
                 required
               />
-              <label htmlFor="privacyPolicy" className="text-sm">
-                By providing this information you are acknowledging and agreeing to the <span className="text-[#d61936]">Privacy Policy</span>
+              <label htmlFor="privacyPolicy" className="text-sm text-gray-600">
+                I acknowledge and agree to the <span className="text-[#d61936] font-semibold">Privacy Policy</span>
               </label>
             </div>
 
-            {/* reCAPTCHA placeholder */}
-            <div className="border border-gray-300 p-4 w-80">
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span>I'm not a robot</span>
-                <img
-                  src="https://ext.same-assets.com/17751892/916436847.png"
-                  alt="reCAPTCHA"
-                  className="h-12 ml-auto"
-                />
-              </div>
-            </div>
-
+            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#d61936] text-white py-4 font-semibold text-lg flex justify-center items-center"
+              className="w-full bg-[#d61936] text-white py-4 rounded-md hover:bg-[#b3142b] transition-colors duration-300 flex justify-center items-center space-x-2"
             >
-              SUBMIT
-              {/* <FaArrowRight className="ml-2" /> */}
+              <UserPlusIcon className="mr-2" />
+              Submit Volunteer Application
+              <ChevronRightIcon />
             </button>
 
-            <p className="text-center text-[#d61936] font-medium">
-              Don't want to fill out the form? Text "Volunteer" to 88022
-            </p>
-
-            <p className="text-sm text-gray-600">
-              By providing your phone number, you are consenting to receive calls and recurring SMS/MMS messages, including autodialed and automated calls and texts, to that number from each of the participating committees in Trump National Committee JFC, Inc. ("TNC"), a joint fundraising committee composed of and authorized by Donald J. Trump for President 2024, Inc. ("DJTFP"), the principal campaign committee of Donald J. Trump, and the Republican National Committee ("RNC"). Msg & data rates may apply. Terms & conditions/privacy policy apply. <a href="http://txtterms.co/88022-2" className="text-[#d61936]">txtterms.co/88022-2</a>
-            </p>
+            {/* Message Handling */}
+            {successMessage && (
+              <p className="text-green-600 text-center mt-4">{successMessage}</p>
+            )}
+            {errorMessage && (
+              <p className="text-red-600 text-center mt-4">{errorMessage}</p>
+            )}
           </form>
         </div>
 
-        {/* Donate section */}
-        <div className="bg-[#263a66] py-12 text-center">
-          <a href="#" className="inline-block">
-            <h2 className="text-4xl text-white font-bold">Donate</h2>
-            <div className="w-20 h-1 bg-[#d61936] mx-auto mt-2"></div>
-          </a>
+        {/* Alternative Volunteer Options */}
+        <div className="mt-10 text-center">
+          <p className="text-gray-600 mb-4">
+            Don't want to fill out the form? Text "Volunteer" to TEXTCODE
+          </p>
+          <p className="text-xs text-gray-500">
+            By providing your contact information, you consent to receive communication from Mugenya's 2027 Committee. Msg & data rates may apply.
+          </p>
         </div>
+      </div>
+
+      {/* Donate Section */}
+      <div className="bg-[#263a66] py-16">
+        <Link 
+          to="/donate" 
+          className="block text-center hover:opacity-90 transition-opacity"
+        >
+          <h2 className="text-4xl text-white font-bold mb-4">Donate</h2>
+          <div className="w-24 h-1 bg-[#d61936] mx-auto"></div>
+        </Link>
       </div>
     </div>
   );

@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 
-const ProductsSlider = () => {
-  const products = [
+const ProductShowcase = () => {
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = [
     {
       id: 1,
       name: 'Image 1',
@@ -22,66 +25,159 @@ const ProductsSlider = () => {
     }
   ];
 
-  const [currentOffset, setCurrentOffset] = useState(0);
-  const sliderRef = useRef(null);
+  const videos = [
+    {
+      id: 1,
+      title: 'Campaign Rally Highlights',
+      youtubeId: 'dQw4w9WgXcQ',
+      thumbnail: `https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg`
+    },
+    {
+      id: 2,
+      title: 'Policy Speech Clip',
+      youtubeId: 'qKxfWd79HFI',
+      thumbnail: `https://img.youtube.com/vi/qKxfWd79HFI/0.jpg`
+    },
+    {
+      id: 3,
+      title: 'Campaign Commercial',
+      youtubeId: 'ub82Xb1C8os',
+      thumbnail: `https://img.youtube.com/vi/ub82Xb1C8os/0.jpg`
+    }
+  ];
 
-  useEffect(() => {
-    const sliderContainer = sliderRef.current;
-    const sliderWidth = sliderContainer.scrollWidth;
-    const totalWidth = sliderWidth / 2;
-
-    const animate = () => {
-      setCurrentOffset((prevOffset) => {
-        const newOffset = prevOffset - 1;
-        return newOffset <= -totalWidth ? 0 : newOffset;
-      });
-    };
-
-    const intervalId = setInterval(animate, 20);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  // Duplicate products to create infinite scroll effect
-  const duplicatedProducts = [...products, ...products];
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      (prevIndex + 1) % images.length
+    );
+  };
 
   return (
-    <section className="py-16 bg-trump-light-secondary relative overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div 
-          ref={sliderRef}
-          className="flex" 
-          style={{ 
-            transform: `translateX(${currentOffset}px)`,
-            width: '200%',
-            display: 'flex'
-          }}
-        >
-          {duplicatedProducts.map((product, index) => (
-            <a
-              key={index}
-              href={product.url}
-              className="flex-shrink-0 w-1/3 px-4 flex flex-col items-center group"
-              target="_blank"
-              rel="noopener noreferrer"
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <div className="w-full max-w-6xl bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+        {/* Left Side - Images */}
+        <div className="bg-gray-50 p-8 flex flex-col justify-between">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6">
+              Campaign Merchandise
+            </h2>
+
+            {/* Large Image Slider */}
+            <div
+              className="relative w-full h-[500px] flex items-center justify-center overflow-hidden rounded-xl shadow-lg cursor-pointer"
+              onClick={handleNextImage}
             >
-              <div className="w-full h-48 rounded mb-3 flex justify-center items-center p-4 shadow-sm transition-transform group-hover:scale-105">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="h-full object-contain"
-                />
+              <div
+                className="relative w-full h-full flex items-center justify-center"
+                style={{
+                  transform: `translateX(-${currentImageIndex * 100}%)`,
+                  transition: 'transform 0.5s ease-in-out',
+                  display: 'flex',
+                  width: `${images.length * 100}%`
+                }}
+              >
+                {images.map((item) => (
+                  <div
+                    key={item.id}
+                    className="w-full h-full flex-shrink-0 flex items-center justify-center p-8"
+                  >
+                    <div className="max-w-full max-h-full flex items-center justify-center">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
-              <h3 className="text-trump-light-navy text-center text-lg font-medium">{product.name}</h3>
-            </a>
-          ))}
+            </div>
+
+            {/* Item Details */}
+            <div className="text-center mt-4">
+              <h3 className="text-lg font-semibold text-gray-700">
+                {images[currentImageIndex].name}
+              </h3>
+              <a
+                href={images[currentImageIndex].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red-600 hover:underline"
+              >
+                View Details
+              </a>
+            </div>
+          </div>
+
+          {/* Pagination Dots */}
+          <div className="flex justify-center space-x-2 mt-4">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className={`w-3 h-3 rounded-full ${
+                  index === currentImageIndex 
+                    ? 'bg-red-600' 
+                    : 'bg-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="mt-8">
+            <button
+              className="w-full bg-red-600 text-white py-3 rounded-lg font-bold uppercase 
+              tracking-wider hover:bg-red-700 transition-colors shadow-md"
+            >
+              See More
+            </button>
+          </div>
+        </div>
+
+        {/* Right Side - YouTube Videos */}
+        <div className="bg-gray-100 p-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">Campaign Media</h2>
+
+          {/* Large Active YouTube Video */}
+          <div className="mb-6 relative">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full">
+              <div className="aspect-w-16 aspect-h-9 h-24 md:h-96">
+                <iframe
+                  src={`https://www.youtube.com/embed/${videos[activeVideoIndex].youtubeId}?autoplay=0&modestbranding=1&rel=0`}
+                  title={videos[activeVideoIndex].title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
+          {/* Video Thumbnails */}
+          <div className="grid grid-cols-3 gap-4">
+            {videos.map((video, index) => (
+              <button
+                key={video.id}
+                onClick={() => setActiveVideoIndex(index)}
+                className={`rounded-lg overflow-hidden transform transition-all 
+                  ${activeVideoIndex === index
+                    ? 'scale-105 border-2 border-red-600 shadow-lg'
+                    : 'hover:scale-105 opacity-70 hover:opacity-100'
+                  }`}
+              >
+                <img
+                  src={video.thumbnail}
+                  alt={video.title}
+                  className="w-full h-24 object-cover"
+                />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-
-      {/* Red banner */}
-      <div className="absolute bottom-0 left-0 right-0 h-12 bg-trump-light-accent"></div>
-    </section>
+    </div>
   );
 };
 
-export default ProductsSlider;
+export default ProductShowcase;

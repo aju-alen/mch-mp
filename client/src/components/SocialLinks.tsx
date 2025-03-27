@@ -4,19 +4,19 @@ const SocialLinks = () => {
       id: 'truth',
       name: 'Truth Social',
       icon: 'https://ext.same-assets.com/697774200/1261798764.png',
-      url: 'https://truthsocial.com/@realDonaldTrump'
+      url: ''
     },
     {
       id: 'rumble',
       name: 'Rumble',
       icon: 'https://ext.same-assets.com/697774200/537585103.png',
-      url: 'https://rumble.com/c/DonaldTrump'
+      url: ''
     },
     {
       id: 'twitter',
       name: 'X (Twitter)',
       icon: 'https://ext.same-assets.com/697774200/2180659290.png',
-      url: 'https://twitter.com/TrumpWarRoom'
+      url: '#'
     },
     {
       id: 'tiktok',

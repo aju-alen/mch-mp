@@ -7,6 +7,7 @@ import NewsPage from './pages/NewsPage';
 import Upcomingprojectspage from './pages/UpcomingProjectsPage';
 import GaleryPage from './pages/GaleryPage';
 import VolunteerPage from './pages/VolunteerPage';
+import SocialLinks from './components/SocialLinks';
 
 function App() {
 
@@ -17,7 +18,8 @@ function App() {
         <main className="flex-grow">
         <Outlet  />
       </main>
-      {/* <Footer /> */}
+      <SocialLinks />
+      <Footer />
     </div>
     );
   };

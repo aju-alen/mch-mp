@@ -136,15 +136,10 @@ const NewsPage = () => {
       {/* Main content */}
       <div className="flex-1">
         {/* Background hero image with overlay text */}
-        <div className="relative">
-          <img
-            src="https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg"
-            alt="News banner"
-            className="w-full h-[300px] object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-5xl text-white font-bold">News</h1>
-          </div>
+        <div className="relative h-screen flex items-center justify-center bg-[url('https://i.postimg.cc/zBk6qLjH/news.jpg')] bg-cover bg-center bg-no-repeat">
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center px-4 mb-2 sm:mb-4">RECENT NEWS</h1>
+        </div>
 
           {/* <div className="absolute bottom-0 left-0 w-full py-4 px-6">
             <div className="flex items-center space-x-4">
@@ -265,49 +260,49 @@ const NewsPage = () => {
         {/* <div className="bg-gray-100 py-6">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-center space-x-6">
-              <a href="https://truthsocial.com/@realDonaldTrump" target="_blank" rel="noopener noreferrer">
+              <a href="" target="_blank" rel="noopener noreferrer">
                 <img
                   src="https://ext.same-assets.com/697774200/1261798764.png"
                   alt="Truth Social"
                   className="h-8"
                 />
               </a>
-              <a href="https://rumble.com/c/DonaldTrump" target="_blank" rel="noopener noreferrer">
+              <a href="" target="_blank" rel="noopener noreferrer">
                 <img
                   src="https://ext.same-assets.com/697774200/537585103.png"
                   alt="Rumble"
                   className="h-8"
                 />
               </a>
-              <a href="https://twitter.com/TrumpWarRoom" target="_blank" rel="noopener noreferrer">
+              <a href="" target="_blank" rel="noopener noreferrer">
                 <img
                   src="https://ext.same-assets.com/697774200/2180659290.png"
                   alt="X"
                   className="h-8"
                 />
               </a>
-              <a href="https://www.tiktok.com/@realdonaldtrump" target="_blank" rel="noopener noreferrer">
+              <a href="" target="_blank" rel="noopener noreferrer">
                 <img
                   src="https://ext.same-assets.com/1716151995/2585614386.png"
                   alt="TikTok"
                   className="h-8"
                 />
               </a>
-              <a href="https://www.facebook.com/DonaldTrump/" target="_blank" rel="noopener noreferrer">
+              <a href="ß" target="_blank" rel="noopener noreferrer">
                 <img
                   src="https://ext.same-assets.com/697774200/1290627856.png"
                   alt="Facebook"
                   className="h-8"
                 />
               </a>
-              <a href="https://www.instagram.com/realdonaldtrump/" target="_blank" rel="noopener noreferrer">
+              <a href="" target="_blank" rel="noopener noreferrer">
                 <img
                   src="https://ext.same-assets.com/697774200/29643769.png"
                   alt="Instagram"
                   className="h-8"
                 />
               </a>
-              <a href="https://www.youtube.com/channel/UCAql2DyGU2un1Ei2nMYsqOA" target="_blank" rel="noopener noreferrer">
+              <a href="" target="_blank" rel="noopener noreferrer">
                 <img
                   src="https://ext.same-assets.com/697774200/1477589357.png"
                   alt="YouTube"
