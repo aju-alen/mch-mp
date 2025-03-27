@@ -65,9 +65,9 @@ const VolunteerPage = () => {
 
       {/* Hero section with background */}
       <div className="relative">
-        <div className="w-full h-[400px] bg-cover bg-center" style={{ backgroundImage: `url(https://i.postimg.cc/KY204G4P/get-involved.jpg)` }}>
-          <div className="absolute top-70 bottom-0 left-0 right-0 z-10 ">
-            <div className="bg-[#d61936] text-white text-center py-8 px-4">
+        <div className=" relative w-full h-[400px] bg-cover bg-center" style={{ backgroundImage: `url(https://i.postimg.cc/KY204G4P/get-involved.jpg)` }}>
+          <div className="">
+            <div className="absolute bg-[#d61936] text-white text-center py-8 px-4   left-0 right-0 top-80 w-3/5 mx-auto">
               <h2 className="text-4xl font-bold mb-2">SIGN UP TO JOIN VOLUNTEERS LIKE YOU!</h2>
               <h3 className="text-2xl font-bold">HELP HON. MUGENYA RESTORE THE LOST GLORY OF SAMIA!</h3>
             </div>
@@ -76,7 +76,7 @@ const VolunteerPage = () => {
       </div>
 
       {/* Form section */}
-      <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-4 pt-32 pb-10">
         <p className="text-base mb-8">
         The forgotten people of Samia are the heart and soul of our great community. The only force strong enough to revive our struggling economy, restore dignity to our schools and hospitals, and secure a better future is you, the people of this land. To reclaim what we have lost and restore the fabric of our glorious Samia, and build a thriving, self-reliant Funyula constituency, we need every farmer, every youth, every family to stand together, demand change, and make their voices heard.
         </p>
@@ -228,7 +228,7 @@ const VolunteerPage = () => {
       </div>
 
       {/* Footer Section */}
-      {/* <div className="bg-[#263a66] text-white py-12">
+      <div className="bg-[#263a66] text-white py-12">
         <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-between">
           <div className="mb-8 md:mb-0">
             <h3 className="text-xl font-bold mb-4">Join Our Movement</h3>
@@ -276,7 +276,7 @@ const VolunteerPage = () => {
         <p className="text-xs">
           The appearance of U.S. Department of Defense personnel or other visual information does not imply or constitute DoD endorsement.
         </p>
-      </div> */}
+      </div>
     </div>
   );
 };
