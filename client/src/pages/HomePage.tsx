@@ -24,7 +24,7 @@ const HomePage = () => {
         <Agenda47 />
         {/* <VideoSection /> */}
         <ProductsSection />
-        <SocialLinks />
+
       </div>
 
       {/* Popup appears above everything */}
