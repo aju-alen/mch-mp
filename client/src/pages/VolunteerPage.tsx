@@ -228,7 +228,7 @@ const VolunteerPage = () => {
       </div>
 
       {/* Footer Section */}
-      <div className="bg-[#263a66] text-white py-12">
+      {/* <div className="bg-[#263a66] text-white py-12">
         <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-between">
           <div className="mb-8 md:mb-0">
             <h3 className="text-xl font-bold mb-4">Join Our Movement</h3>
@@ -276,7 +276,7 @@ const VolunteerPage = () => {
         <p className="text-xs">
           The appearance of U.S. Department of Defense personnel or other visual information does not imply or constitute DoD endorsement.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };
