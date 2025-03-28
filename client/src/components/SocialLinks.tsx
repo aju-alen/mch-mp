@@ -1,17 +1,17 @@
 const SocialLinks = () => {
   const socialLinks = [
-    {
-      id: 'truth',
-      name: 'Truth Social',
-      icon: 'https://ext.same-assets.com/697774200/1261798764.png',
-      url: ''
-    },
-    {
-      id: 'rumble',
-      name: 'Rumble',
-      icon: 'https://ext.same-assets.com/697774200/537585103.png',
-      url: ''
-    },
+    // {
+    //   id: 'truth',
+    //   name: 'Truth Social',
+    //   icon: 'https://ext.same-assets.com/697774200/1261798764.png',
+    //   url: ''
+    // },
+    // {
+    //   id: 'rumble',
+    //   name: 'Rumble',
+    //   icon: 'https://ext.same-assets.com/697774200/537585103.png',
+    //   url: ''
+    // },
     {
       id: 'twitter',
       name: 'X (Twitter)',
@@ -40,7 +40,7 @@ const SocialLinks = () => {
       id: 'youtube',
       name: 'YouTube',
       icon: 'https://ext.same-assets.com/697774200/1477589357.png',
-      url: '#'
+      url: 'https://www.youtube.com/@Funyula2027'
     }
   ];
 

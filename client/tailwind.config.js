@@ -115,21 +115,14 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       container: {
-        center: true,
-        padding: {
-          DEFAULT: '2rem', // More padding for small screens
-          sm: '3rem',
-          lg: '4rem',
-          xl: '5rem',
-          '2xl': '6rem',
-        },
-      
+        center: true, // Keeps it centered with margin auto
+        padding: "0", // Removes padding completely
         screens: {
-          sm: '640px',
-          md: '768px',
-          lg: '1024px',
-          xl: '1280px',
-          '2xl': '1536px',
+          sm: "600px",
+          md: "800px",
+          lg: "1100px",
+          xl: "1300px",
+          "2xl": "1600px",
         },
       },
     },

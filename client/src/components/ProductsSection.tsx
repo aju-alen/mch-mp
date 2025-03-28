@@ -55,13 +55,13 @@ const ProductShowcase = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-6xl bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+    <div className="container  bg-gray-100 flex items-center justify-center ">
+      <div className="w-full  bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Side - Images */}
         <div className="bg-gray-50 p-8 flex flex-col justify-between">
           <div className="space-y-6">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">
-              Campaign Merchandise
+              Media 
             </h2>
 
             {/* Large Image Slider */}
@@ -141,7 +141,7 @@ const ProductShowcase = () => {
 
         {/* Right Side - YouTube Videos */}
         <div className="bg-gray-100 p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Campaign Media</h2>
+          {/* <h2 className="text-3xl font-bold text-gray-800 mb-6">Campaign Media</h2> */}
 
           {/* Large Active YouTube Video */}
           <div className="mb-6 relative">

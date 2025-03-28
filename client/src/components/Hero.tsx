@@ -4,7 +4,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40"></div>
       <div className="container relative z-10 
         md:absolute 
-        md:bottom-72
+        md: bottom-60
         bottom-0 
         md:right-18
         px-4 

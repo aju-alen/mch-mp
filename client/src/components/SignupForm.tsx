@@ -11,16 +11,41 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
   const [subLocation, setSubLocation] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', { fullName, location, subLocation, phoneNumber });
-    setFullName('');
-    setLocation('');
-    setSubLocation('');
-    setPhoneNumber('');
-
-    // const verifyPhoneNumber = axios.get() 
+    try {
+      console.log('Form submitted:', { fullName, location, subLocation, phoneNumber });
+  
+      const formData = {
+        fullName,
+        location,
+        subLocation,
+        phoneNumber
+      };
+  
+      const verifyPhoneNumber = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
+      
+      console.log('verifyPhoneNumber:', verifyPhoneNumber);
+      
+      if (verifyPhoneNumber.status === 200) {
+        alert(verifyPhoneNumber.data.message);
+  
+        // Open new tab with a given link (Change the URL accordingly)
+        window.open('https://fpfplatform.funyula.com/', '_blank');
+      }
+  
+      // Reset form fields
+      setFullName('');
+      setLocation('');
+      setSubLocation('');
+      setPhoneNumber('');
+    } 
+    catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred while submitting the form. Please try again later.');
+    }
   };
+  
 
   if (variant === 'footer') {
     return (
