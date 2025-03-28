@@ -31,19 +31,19 @@ const ProductShowcase = () => {
     {
       id: 1,
       title: 'Campaign Rally Highlights',
-      youtubeId: 'aTE8AS2-ai4',
+      youtubeId: 'AZot_17N5ho',
       thumbnail: `https://funyula.com/wp-content/uploads/2025/03/97_1.3.1.jpg`
     },
     {
       id: 2,
       title: 'Policy Speech Clip',
-      youtubeId: 'M54LjYLZGYg',
+      youtubeId: 'unqIDomyhI4',
       thumbnail: `https://funyula.com/wp-content/uploads/2025/03/platform.jpg`
     },
     {
       id: 3,
       title: 'Campaign Commercial',
-      youtubeId: 'VHoM_wp97JQ',
+      youtubeId: 'zoWirgI4Jkg',
       thumbnail: `https://funyula.com/wp-content/uploads/2025/03/4_1.2.1-2.jpg`
     }
   ];
