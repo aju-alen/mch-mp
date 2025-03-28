@@ -40,9 +40,9 @@ const Footer = () => {
               <Link to="/galery" className="hover:text-trump-light-accent transition-colors">GALERY</Link>
               <Link to="/get-involved" className="hover:text-trump-light-accent transition-colors">GET INVOLVED</Link>
             </div>
-            <div>
+            {/* <div>
               <span className="text-gray-500">Powered by Nucleus</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
