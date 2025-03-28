@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <div className="relative h-screen flex items-center justify-center bg-[url('https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg')] bg-cover bg-center bg-no-repeat">
+    <div className="relative h-screen flex items-center justify-center bg-[url('https://funyula.com/wp-content/uploads/2025/03/112_1.15.2.jpg')] bg-cover bg-center bg-no-repeat">
       <div className="absolute inset-0 bg-black/40"></div>
       <div className="container relative z-10 
         md:absolute 
@@ -14,7 +14,8 @@ const Hero = () => {
       ">
         <div className="max-w-2xl 
           mx-auto 
-          xl:mx-0 
+          2xl:mx-14 
+          3xl:mb-80
           px-4 
           xl:px-0
         ">

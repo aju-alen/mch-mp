@@ -35,7 +35,7 @@ const Agenda47 = () => {
           </div>
           <div className="lg:w-1/2">
             <img
-              src="https://i.postimg.cc/GtR0ZchM/26-1-9-1.jpg"
+              src="https://funyula.com/wp-content/uploads/2025/03/platform.jpg"
               alt="President Trump at Rally"
               className="w-full h-auto rounded-md shadow-md"
             />

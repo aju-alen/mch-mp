@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProductShowcase = () => {
+  const navigate = useNavigate();
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -8,19 +10,19 @@ const ProductShowcase = () => {
     {
       id: 1,
       name: 'Image 1',
-      image: 'https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg',
+      image: 'https://funyula.com/wp-content/uploads/2025/03/138_1.26.1.jpg',
       url: ''
     },
     {
       id: 2,
       name: 'Image 2',
-      image: 'https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg',
+      image: 'https://funyula.com/wp-content/uploads/2025/03/107_1.11.1.jpg',
       url: ''
     },
     {
       id: 3,
       name: 'Image 3',
-      image: 'https://i.postimg.cc/Fs2D7G20/112-1-15-2.jpg',
+      image: 'https://funyula.com/wp-content/uploads/2025/03/97_1.3.1.jpg',
       url: ''
     }
   ];
@@ -29,20 +31,20 @@ const ProductShowcase = () => {
     {
       id: 1,
       title: 'Campaign Rally Highlights',
-      youtubeId: 'dQw4w9WgXcQ',
-      thumbnail: `https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg`
+      youtubeId: 'aTE8AS2-ai4',
+      thumbnail: `https://funyula.com/wp-content/uploads/2025/03/97_1.3.1.jpg`
     },
     {
       id: 2,
       title: 'Policy Speech Clip',
-      youtubeId: 'qKxfWd79HFI',
-      thumbnail: `https://img.youtube.com/vi/qKxfWd79HFI/0.jpg`
+      youtubeId: 'M54LjYLZGYg',
+      thumbnail: `https://funyula.com/wp-content/uploads/2025/03/platform.jpg`
     },
     {
       id: 3,
       title: 'Campaign Commercial',
-      youtubeId: 'ub82Xb1C8os',
-      thumbnail: `https://img.youtube.com/vi/ub82Xb1C8os/0.jpg`
+      youtubeId: 'VHoM_wp97JQ',
+      thumbnail: `https://funyula.com/wp-content/uploads/2025/03/4_1.2.1-2.jpg`
     }
   ];
 
@@ -98,14 +100,14 @@ const ProductShowcase = () => {
               <h3 className="text-lg font-semibold text-gray-700">
                 {images[currentImageIndex].name}
               </h3>
-              <a
+              {/* <a
                 href={images[currentImageIndex].url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-red-600 hover:underline"
               >
                 View Details
-              </a>
+              </a> */}
             </div>
           </div>
 
@@ -125,7 +127,10 @@ const ProductShowcase = () => {
           </div>
 
           <div className="mt-8">
-            <button
+            <button onClick={()=> {navigate('/gallery')
+              window.scrollTo(0, 0);
+
+            } }
               className="w-full bg-red-600 text-white py-3 rounded-lg font-bold uppercase 
               tracking-wider hover:bg-red-700 transition-colors shadow-md"
             >
@@ -141,7 +146,7 @@ const ProductShowcase = () => {
           {/* Large Active YouTube Video */}
           <div className="mb-6 relative">
             <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full">
-              <div className="aspect-w-16 aspect-h-9 h-24 md:h-96">
+              <div className="aspect-w-16 aspect-h-9 h-96">
                 <iframe
                   src={`https://www.youtube.com/embed/${videos[activeVideoIndex].youtubeId}?autoplay=0&modestbranding=1&rel=0`}
                   title={videos[activeVideoIndex].title}

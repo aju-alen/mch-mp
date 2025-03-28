@@ -25,7 +25,7 @@ const Header = () => {
             <div className="flex-shrink-0">
               <Link to="/">
                 <img
-                  src="https://i.postimg.cc/cL5MWGTh/logo.png"
+                  src="https://funyula.com/wp-content/uploads/2025/03/logo.png"
                   alt="Trump Logo"
                   className="h-10 md:h-24"
                 />
@@ -91,7 +91,7 @@ const Header = () => {
               <Link to="/news" className="nav-link">NEWS</Link>
               <Link to="/platform" className="nav-link">VISION</Link>
               <Link to="/upcoming-projects" className="nav-link">UPCOMING PROJECTS</Link>
-              <Link to="/galery" className="nav-link">GALLERY</Link>
+              <Link to="/gallery" className="nav-link">GALLERY</Link>
               <Link to="/get-involved" className="nav-link">GET INVOLVED</Link>
 
 

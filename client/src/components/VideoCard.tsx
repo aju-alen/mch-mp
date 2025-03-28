@@ -1,19 +1,21 @@
+import React from 'react';
+
 interface VideoCardProps {
   id: string;
   title: string;
   description: string;
+  imageUrl: string;
 }
 
-const VideoCard = ({ id, title, description }: VideoCardProps) => {
+const VideoCard = ({ id, title, description, imageUrl }: VideoCardProps) => {
   return (
     <div className="bg-white rounded overflow-hidden shadow-md">
       <div className="relative pb-[56.25%] h-0">
-        <iframe
-          className="absolute top-0 left-0 w-full h-full"
-          src={`https://rumble.com/embed/${id}/?rel=0`}
-          frameBorder="0"
-          allowFullScreen
-        ></iframe>
+        <img
+          src={imageUrl}
+          alt={title}
+          className="absolute top-0 left-0 w-full h-full object-cover"
+        />
       </div>
       <div className="p-5">
         <h3 className="text-xl font-bold mb-2 text-trump-light-navy">{title}</h3>
@@ -21,7 +23,7 @@ const VideoCard = ({ id, title, description }: VideoCardProps) => {
 
         <div className="flex items-center gap-3 border-t border-gray-200 pt-3">
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=https://rumble.com/${id}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.html`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-trump-light-blue transition-colors"
@@ -37,7 +39,7 @@ const VideoCard = ({ id, title, description }: VideoCardProps) => {
             </svg>
           </a>
           <a
-            href={`http://twitter.com/share?url=https://rumble.com/${id}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.html`}
+            href={`http://twitter.com/share?url=${encodeURIComponent(imageUrl)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-trump-light-blue transition-colors"
