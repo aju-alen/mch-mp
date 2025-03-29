@@ -30,12 +30,25 @@ export const volunteerGetPdf = async (req, res, next) => {
     const { fullName, location, subLocation, phoneNumber } = req.body;
 
     try {
+        // Check if the user already exists
+        const checkVolunteer = await prisma.user.findUnique({
+            where: {
+                phone: phoneNumber
+            }
+        });
+        if (checkVolunteer) {
+            return res.status(400).json({ message: 'You have already verified.' });
+        }
+        // Create a new volunteer
+        const generateCode = Math.floor(1000 + Math.random() * 9000);
         const volunteer = await prisma.user.create({
             data: {
                 fullName,
                 location,
                 subLocation,
-                phone: phoneNumber
+                phone: phoneNumber,
+                verificationCode: generateCode,
+                isVerified: false,
             }
         });
 
