@@ -78,12 +78,12 @@ export const videos: Video[] = [
       description: 'Description of what he is doing or what he promises here',
       imageUrl: 'https://dubaianalytica.com/wp-content/uploads/2025/03/41_1.10.13.jpg'
     },
-    {
-      id: '13',
-      title: 'Title Here',
-      description: 'Description of what he is doing or what he promises here',
-      imageUrl: 'https://dubaianalytica.com/wp-content/uploads/2025/03/39_1.41.1.jpg'
-    },
+    // {
+    //   id: '13',
+    //   title: 'Title Here',
+    //   description: 'Description of what he is doing or what he promises here',
+    //   imageUrl: 'https://dubaianalytica.com/wp-content/uploads/2025/03/39_1.41.1.jpg'
+    // },
     {
       id: '14',
       title: 'Title Here',
