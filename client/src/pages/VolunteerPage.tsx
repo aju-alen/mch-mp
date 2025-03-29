@@ -59,7 +59,7 @@ const VolunteerPage = () => {
     <div className="font-['Montserrat',sans-serif] text-gray-800">
       {/* Hero section with background */}
       <div className="relative">
-        <div className="relative w-full h-[300px] sm:h-[400px] bg-cover bg-center" style={{ backgroundImage: `url(https://funyula.com/wp-content/uploads/2025/03/get_involved.jpg)` }}>
+        <div className="relative w-full h-[300px] sm:h-[400px] bg-cover bg-center" style={{ backgroundImage: `url(https://dubaianalytica.com/wp-content/uploads/2025/03/get_involved.jpg)` }}>
           <div className="absolute bg-[#d61936] text-white text-center py-4 sm:py-8 px-4 left-0 right-0 top-[230px] sm:top-80 w-11/12 sm:w-3/5 mx-auto">
             <h2 className="text-2xl sm:text-4xl font-bold mb-2">SIGN UP TO JOIN VOLUNTEERS LIKE YOU!</h2>
             <h3 className="text-xl sm:text-2xl font-bold">HELP HON. MUGENYA RESTORE THE LOST GLORY OF SAMIA!</h3>

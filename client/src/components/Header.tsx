@@ -25,7 +25,7 @@ const Header = () => {
             <div className="flex-shrink-0">
               <Link to="/">
                 <img
-                  src="https://funyula.com/wp-content/uploads/2025/03/logo.png"
+                  src="https://dubaianalytica.com/wp-content/uploads/2025/03/logo.png"
                   alt="Trump Logo"
                   className="h-10 md:h-24"
                 />

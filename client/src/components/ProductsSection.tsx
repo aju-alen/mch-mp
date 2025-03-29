@@ -10,19 +10,19 @@ const ProductShowcase = () => {
     {
       id: 1,
       name: 'Image 1',
-      image: 'https://funyula.com/wp-content/uploads/2025/03/138_1.26.1.jpg',
+      image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/platform.jpg',
       url: ''
     },
     {
       id: 2,
       name: 'Image 2',
-      image: 'https://funyula.com/wp-content/uploads/2025/03/107_1.11.1.jpg',
+      image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/news.jpg',
       url: ''
     },
     {
       id: 3,
       name: 'Image 3',
-      image: 'https://funyula.com/wp-content/uploads/2025/03/97_1.3.1.jpg',
+      image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/get_involved.jpg',
       url: ''
     }
   ];
@@ -32,19 +32,19 @@ const ProductShowcase = () => {
       id: 1,
       title: 'Campaign Rally Highlights',
       youtubeId: 'AZot_17N5ho',
-      thumbnail: `https://funyula.com/wp-content/uploads/2025/03/97_1.3.1.jpg`
+      thumbnail: `https://dubaianalytica.com/wp-content/uploads/2025/03/98_1.4.1.jpg`
     },
     {
       id: 2,
       title: 'Policy Speech Clip',
       youtubeId: 'unqIDomyhI4',
-      thumbnail: `https://funyula.com/wp-content/uploads/2025/03/platform.jpg`
+      thumbnail: `https://dubaianalytica.com/wp-content/uploads/2025/03/10_1.6.2.jpg`
     },
     {
       id: 3,
       title: 'Campaign Commercial',
       youtubeId: 'zoWirgI4Jkg',
-      thumbnail: `https://funyula.com/wp-content/uploads/2025/03/4_1.2.1-2.jpg`
+      thumbnail: `https://dubaianalytica.com/wp-content/uploads/2025/03/platform.jpg`
     }
   ];
 
