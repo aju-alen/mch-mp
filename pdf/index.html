@@ -3,37 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF</title>
+    <title>Mobile-Friendly PDF Viewer</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
+            width: 100%;
             overflow: hidden;
+            position: fixed;
         }
+        
+        /* Container with proper overflow settings */
         .pdf-container {
             width: 100%;
-            height: 100vh;
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        /* Make iframe take full space of container */
+        .pdf-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .pdf-container {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Show direct link for very small screens or problematic devices */
+            .mobile-fallback {
+                display: none;
+                padding: 20px;
+                text-align: center;
+            }
+            
+            .mobile-fallback a {
+                display: inline-block;
+                padding: 12px 20px;
+                background-color: #0066cc;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: bold;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Embed the PDF from S3 -->
-    <!-- <embed 
-        src="https://s3-scientific-journal.s3.ap-south-1.amazonaws.com/The_Funyula_2027_and_Beyond_Manifesto.pdf" 
-        type="application/pdf" 
-        class="pdf-container"
-    /> -->
-
+    <div class="pdf-container">
+        <!-- Using iframe instead of embed for better mobile compatibility -->
+        <iframe 
+            src="https://s3-scientific-journal.s3.ap-south-1.amazonaws.com/The_Funyula_2027_and_Beyond_Manifesto.pdf" 
+            class="pdf-iframe"
+            title="PDF Document"
+            allowfullscreen
+        ></iframe>
+    </div>
     
-    <!-- Alternative with object tag and fallback -->
-    <object 
-        data="https://s3-scientific-journal.s3.ap-south-1.amazonaws.com/The_Funyula_2027_and_Beyond_Manifesto.pdf" 
-        type="application/pdf" 
-        class="pdf-container">
-        <p>It appears your browser doesn't support embedded PDFs. 
-        <a href="https://s3-scientific-journal.s3.ap-south-1.amazonaws.com/The_Funyula_2027_and_Beyond_Manifesto.pdf">Click here to download the PDF</a>.</p>
-    </object>
-   
+    <!-- Fallback for devices that still have issues -->
+    <div class="mobile-fallback" id="fallbackView">
+        <p>Having trouble viewing the PDF?</p>
+        <a href="https://s3-scientific-journal.s3.ap-south-1.amazonaws.com/The_Funyula_2027_and_Beyond_Manifesto.pdf" target="_blank">
+            Open PDF directly
+        </a>
+    </div>
+
+    <script>
+        // Detect problematic mobile browsers and show fallback if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if PDF is loading properly
+            const iframe = document.querySelector('.pdf-iframe');
+            const fallback = document.getElementById('fallbackView');
+            
+            // Simple detection for some problematic mobile browsers
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            // Show fallback button after a delay if on mobile
+            if (isMobile) {
+                setTimeout(function() {
+                    fallback.style.display = 'block';
+                }, 2000);
+            }
+            
+            // Handle iframe load errors
+            iframe.onerror = function() {
+                fallback.style.display = 'block';
+            };
+        });
+    </script>
 </body>
 </html>
