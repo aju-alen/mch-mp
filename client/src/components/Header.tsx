@@ -8,22 +8,31 @@ const Header = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <>
       {/* Text message banner */}
-      <div className="bg-trump-maingreen text-white text-center py-3 text-sm font-bold">
-        <a href="sms://88022;?&body=%20TRUMP" className="hover:underline">
+      
+      {/* <div className="bg-trump-maingreen text-white text-center py-3 text-sm font-bold">
+        <a 
+          href="sms://88022;?&body=%20TRUMP" 
+          className="hover:underline"
+          onClick={closeMobileMenu}
+        >
           TEXT MUGENYA TO 88022!
         </a>
         <a href="#main" className="sr-only">Skip to main content</a>
-      </div>
+      </div> */}
 
       <header className="bg-white border-b-4 border-trump-maingreen sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link to="/">
+              <Link to="/" onClick={closeMobileMenu}>
                 <img
                   src="https://dubaianalytica.com/wp-content/uploads/2025/03/logo.png"
                   alt="Trump Logo"
@@ -88,20 +97,18 @@ const Header = () => {
           {/* Mobile Menu */}
           {mobileMenuOpen && (
             <nav className="lg:hidden mt-4 pb-4 border-t border-gray-200 pt-4 flex flex-col space-y-4">
-              <Link to="/news" className="nav-link">NEWS</Link>
-              <Link to="/platform" className="nav-link">VISION</Link>
-              <Link to="/upcoming-projects" className="nav-link">UPCOMING PROJECTS</Link>
-              <Link to="/gallery" className="nav-link">GALLERY</Link>
-              <Link to="/get-involved" className="nav-link">GET INVOLVED</Link>
-
-
-
+              <Link to="/news" className="nav-link" onClick={closeMobileMenu}>NEWS</Link>
+              <Link to="/platform" className="nav-link" onClick={closeMobileMenu}>VISION</Link>
+              <Link to="/upcoming-projects" className="nav-link" onClick={closeMobileMenu}>UPCOMING PROJECTS</Link>
+              <Link to="/gallery" className="nav-link" onClick={closeMobileMenu}>GALLERY</Link>
+              <Link to="/get-involved" className="nav-link" onClick={closeMobileMenu}>GET INVOLVED</Link>
              
               <a
                 href="https://secure.winred.com/trump-national-committee-jfc/lp-website-contribute-button-victory"
                 className="text-trump-light-accent font-medium"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={closeMobileMenu}
               >
                 SUPPORT THE CAUSE
               </a>

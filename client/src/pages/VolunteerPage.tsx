@@ -201,9 +201,9 @@ const VolunteerPage = () => {
           </button>
         </form>
 
-        <p className="text-center text-[#d61936] font-bold text-sm sm:text-lg mt-6">
+        {/* <p className="text-center text-[#d61936] font-bold text-sm sm:text-lg mt-6">
         Don't want to fill out the form? Text "Volunteer" to TEXTCODE
-        </p>
+        </p> */}
 
         <p className="text-xs sm:text-sm text-gray-600 mt-6">
         By providing your phone number, you are consenting to receive calls and recurring SMS messages or texts, to that number from each of the participating committees in Mugenya's 2027 Committee. Msg & data rates may apply. Terms & conditions/privacy policy apply
