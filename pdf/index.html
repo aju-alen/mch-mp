@@ -5,73 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Viewer</title>
     <style>
-        html, body {
+        body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: auto; /* Changed from hidden to auto */
-            -webkit-overflow-scrolling: touch; /* Enables momentum scrolling on iOS */
-        }
-        #pdf-container {
             width: 100%;
-            min-height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f4f4f4;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
         }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .header {
+            background-color: #f0f0f0;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        
+        .pdf-container {
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+        }
+        
         #pdf-viewer {
             width: 100%;
-            height: 100vh; /* Use viewport height */
+            height: 100%;
             border: none;
         }
-        @media screen and (max-width: 768px) {
-            #pdf-container {
-                padding: 0;
-                height: auto; /* Allow container to expand */
+        
+        .fallback {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 8px 10px;
             }
-            #pdf-viewer {
-                width: 100%;
-                height: 100vh; /* Full viewport height */
-                position: relative;
-                overflow-y: scroll; /* Enable vertical scrolling */
-                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-            }
-            /* For iOS Safari specific fixes */
-            .ios-scroll-fix {
-                -webkit-overflow-scrolling: touch;
-                overflow-y: scroll;
+            
+            .header h1 {
+                font-size: 1.5rem;
+                margin: 0;
             }
         }
     </style>
 </head>
 <body>
-    <div id="pdf-container">
-        <object id="pdf-viewer" data="./funyula.pdf" type="application/pdf" width="100%" height="100%">
-            <p>Your browser doesn't support PDF viewing. 
-            <a href="./funyula.pdf" download>Download the PDF</a> instead.</p>
-        </object>
+    <div class="container">
+        <div class="header">
+            <h1>PDF Document</h1>
+        </div>
+        
+        <div class="pdf-container">
+            <!-- Replace "your-document.pdf" with the path to your PDF file -->
+            <iframe id="pdf-viewer" src="./funyula.pdf" type="application/pdf"></iframe>
+            
+            <div class="fallback" id="fallback">
+                <p>Your browser doesn't support embedded PDFs. <a id="pdf-download-link" href="./funyula.pdf" download>Click here to download the PDF</a> instead.</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Fallback for browsers that don't support PDF inline viewing
-        window.addEventListener('load', function() {
-            var pdfViewer = document.getElementById('pdf-viewer');
-            if (pdfViewer.getAttribute('data') && !pdfViewer.querySelector('embed, object')) {
-                pdfViewer.innerHTML = `
-                    <p>Unable to display PDF. 
-                    <a href="${pdfViewer.getAttribute('data')}" download>Download PDF</a></p>
-                `;
+        // Check if PDF is supported by the browser
+        function isPdfSupported() {
+            const iframe = document.getElementById('pdf-viewer');
+            return iframe.contentDocument && 
+                  !iframe.contentDocument.body.innerHTML.includes('plugin') && 
+                  !iframe.contentDocument.body.innerHTML.includes('Adobe');
+        }
+        
+        // Check PDF support after a brief delay
+        setTimeout(function() {
+            if (!isPdfSupported()) {
+                document.getElementById('pdf-viewer').style.display = 'none';
+                document.getElementById('fallback').style.display = 'block';
             }
-            
-            // Detect iOS and add specific class for better scrolling
-            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            if (isIOS) {
-                document.body.classList.add('ios-scroll-fix');
-                document.getElementById('pdf-container').classList.add('ios-scroll-fix');
-                document.getElementById('pdf-viewer').classList.add('ios-scroll-fix');
-            }
-        });
+        }, 1000);
+        
+        // Update download link
+        document.getElementById('pdf-download-link').href = document.getElementById('pdf-viewer').src;
     </script>
 </body>
 </html>
