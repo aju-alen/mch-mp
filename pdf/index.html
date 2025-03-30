@@ -3,66 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Viewer</title>
+    <title>PDF Reader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-        
-        .container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+        #pdf-container {
             width: 100%;
+            height: 500px;
+            overflow: auto;
+            border: 1px solid #ccc;
         }
-        
-        .header {
-            background-color: #f8f9fa;
-            padding: 10px 20px;
-            border-bottom: 1px solid #e1e4e8;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .pdf-container {
-            flex: 1;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-        }
-        
-        #pdf-viewer {
-            width: 100%;
-            height: 100%;
-            border: none;
+        canvas {
+            display: block;
+            margin: auto;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="title">PDF Viewer</div>
-        </div>
-        <div class="pdf-container">
-            <!-- Using the embed tag for maximum compatibility -->
-            <embed 
-                id="pdf-viewer"
-                src="./document.pdf"
-                type="application/pdf"
-                width="100%"
-                height="100%"
-            />
-        </div>
-    </div>
+    <h2>Simple PDF Reader</h2>
+    <div id="pdf-container"></div>
+
+    <script>
+        const s3PdfUrl = "https://s3-scientific-journal.s3.ap-south-1.amazonaws.com/The_Funyula_2027_and_Beyond_Manifesto.pdf"; // Replace with your S3 URL
+
+        pdfjsLib.getDocument(s3PdfUrl).promise.then(pdf => {
+            const container = document.getElementById('pdf-container');
+            container.innerHTML = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                pdf.getPage(i).then(page => {
+                    const canvas = document.createElement('canvas');
+                    container.appendChild(canvas);
+                    const context = canvas.getContext('2d');
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    page.render({ canvasContext: context, viewport: viewport });
+                });
+            }
+        }).catch(error => {
+            console.error("Error loading PDF:", error);
+        });
+    </script>
 </body>
 </html>
