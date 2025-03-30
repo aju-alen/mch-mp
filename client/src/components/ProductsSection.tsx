@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ProductShowcase = () => {
@@ -9,22 +9,23 @@ const ProductShowcase = () => {
   const images = [
     {
       id: 1,
-      name: 'Image 1',
+      name: '',
       image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/platform.jpg',
       url: ''
     },
     {
       id: 2,
-      name: 'Image 2',
+      name: '',
       image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/news.jpg',
       url: ''
     },
     {
       id: 3,
-      name: 'Image 3',
+      name: '',
       image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/get_involved.jpg',
       url: ''
-    }
+    },
+    
   ];
 
   const videos = [
@@ -54,90 +55,116 @@ const ProductShowcase = () => {
     );
   };
 
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+  
+  // Auto-advance the slider every 5 seconds
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     handleNextImage();
+  //   }, 5000);
+    
+  //   return () => clearInterval(interval);
+  // }, []);
+  
+  // Mock navigate function
+  // const navigate = (path) => {
+  //   console.log(`Navigating to: ${path}`);
+  // };
+
   return (
     <div className="container  bg-gray-100 flex items-center justify-center ">
       <div className="w-full  bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Side - Images */}
         <div className="bg-gray-50 p-8 flex flex-col justify-between">
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">
-              Media 
-            </h2>
+      <div className="space-y-6">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Media
+        </h2>
 
-            {/* Large Image Slider */}
+        {/* Image Slider with Navigation Arrows */}
+        <div className="relative w-full h-96 rounded-xl shadow-lg">
+          {/* Left Arrow */}
+          <button 
+            onClick={handlePrevImage}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 shadow-md"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          
+          {/* Image Container */}
+          <div className="relative w-full h-full overflow-hidden rounded-xl">
             <div
-              className="relative w-full h-[500px] flex items-center justify-center overflow-hidden rounded-xl shadow-lg cursor-pointer"
-              onClick={handleNextImage}
+              className="absolute w-full h-full flex transition-transform duration-500"
+              style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
             >
-              <div
-                className="relative w-full h-full flex items-center justify-center"
-                style={{
-                  transform: `translateX(-${currentImageIndex * 100}%)`,
-                  transition: 'transform 0.5s ease-in-out',
-                  display: 'flex',
-                  width: `${images.length * 100}%`
-                }}
-              >
-                {images.map((item) => (
-                  <div
-                    key={item.id}
-                    className="w-full h-full flex-shrink-0 flex items-center justify-center p-8"
-                  >
-                    <div className="max-w-full max-h-full flex items-center justify-center">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    </div>
+              {images.map((item) => (
+                <div key={item.id} className="w-full h-full flex-shrink-0">
+                  <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Item Details */}
-            <div className="text-center mt-4">
-              <h3 className="text-lg font-semibold text-gray-700">
-                {images[currentImageIndex].name}
-              </h3>
-              {/* <a
-                href={images[currentImageIndex].url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-red-600 hover:underline"
-              >
-                View Details
-              </a> */}
+                </div>
+              ))}
             </div>
           </div>
-
-          {/* Pagination Dots */}
-          <div className="flex justify-center space-x-2 mt-4">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`w-3 h-3 rounded-full ${
-                  index === currentImageIndex 
-                    ? 'bg-red-600' 
-                    : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-
-          <div className="mt-8">
-            <button onClick={()=> {navigate('/gallery')
-              window.scrollTo(0, 0);
-
-            } }
-              className="w-full bg-red-600 text-white py-3 rounded-lg font-bold uppercase 
-              tracking-wider hover:bg-red-700 transition-colors shadow-md"
-            >
-              See More
-            </button>
-          </div>
+          
+          {/* Right Arrow */}
+          <button 
+            onClick={handleNextImage}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 shadow-md"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
+
+        {/* Item Details */}
+        <div className="text-center mt-4">
+          <h3 className="text-lg font-semibold text-gray-700">
+            {images[currentImageIndex].name}
+          </h3>
+        </div>
+      </div>
+
+      {/* Pagination Dots */}
+      <div className="flex justify-center space-x-2 mt-4">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentImageIndex(index)}
+            className={`w-3 h-3 rounded-full transition-colors ${
+              index === currentImageIndex 
+                ? 'bg-red-600' 
+                : 'bg-gray-300 hover:bg-gray-400'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      <div className="mt-8">
+        <button 
+          onClick={() => {
+            navigate('/gallery');
+            window.scrollTo(0, 0);
+          }}
+          className="w-full bg-red-600 text-white py-3 rounded-lg font-bold uppercase 
+          tracking-wider hover:bg-red-700 transition-colors shadow-md"
+        >
+          See More
+        </button>
+      </div>
+    </div>
 
         {/* Right Side - YouTube Videos */}
         <div className="bg-gray-100 p-8">
