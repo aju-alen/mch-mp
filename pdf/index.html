@@ -3,147 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal PDF.js Implementation</title>
+    <title>PDF Viewer</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
         }
         
-        #pdfContainer {
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+        .header {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e1e4e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        #pdfCanvas {
-            display: block;
-            margin: 0 auto;
-            border: 1px solid #ddd;
+        .title {
+            font-size: 18px;
+            font-weight: bold;
         }
         
         .controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.7);
-            padding: 10px;
-            border-radius: 5px;
             display: flex;
             gap: 10px;
         }
         
         button {
-            padding: 8px 15px;
-            border: none;
-            background: #0066cc;
+            padding: 6px 12px;
+            background-color: #0366d6;
             color: white;
+            border: none;
             border-radius: 4px;
             cursor: pointer;
         }
         
-        #pageInfo {
-            color: white;
-            display: flex;
-            align-items: center;
-            margin: 0 10px;
+        button:hover {
+            background-color: #0255b3;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .pdf-container {
+            flex: 1;
+            overflow: auto;
+        }
+        
+        #pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .page-indicator {
+            margin-left: 15px;
+            font-size: 14px;
         }
     </style>
-    <!-- Include PDF.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 </head>
 <body>
-    <div id="pdfContainer">
-        <canvas id="pdfCanvas"></canvas>
-    </div>
-    
-    <div class="controls">
-        <button id="prevBtn">Previous</button>
-        <div id="pageInfo">Page <span id="currentPage">1</span> of <span id="totalPages">?</span></div>
-        <button id="nextBtn">Next</button>
+    <div class="container">
+        <div class="header">
+            <div class="title">PDF Viewer</div>
+            <div class="controls">
+                <button id="prev-page" disabled>Previous</button>
+                <span class="page-indicator">Page: <span id="current-page">1</span> / <span id="total-pages">?</span></span>
+                <button id="next-page" disabled>Next</button>
+                <button id="zoom-in">Zoom In</button>
+                <button id="zoom-out">Zoom Out</button>
+            </div>
+        </div>
+        <div class="pdf-container">
+            <iframe id="pdf-viewer" src="about:blank"></iframe>
+        </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script>
-        // Set PDF.js worker path
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+        // The workerSrc property needs to be specified
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        // PDF file URL - replace with your PDF file path
+        const pdfUrl = './funyula.pdf'; // This should be the path to your PDF file
         
-        // PDF viewing variables
         let pdfDoc = null;
         let pageNum = 1;
-        let pageRendering = false;
-        let pageNumPending = null;
-        const scale = 1.5;
-        const canvas = document.getElementById('pdfCanvas');
-        const ctx = canvas.getContext('2d');
+        let scale = 1.0;
+        const viewer = document.getElementById('pdf-viewer');
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        const zoomInButton = document.getElementById('zoom-in');
+        const zoomOutButton = document.getElementById('zoom-out');
+        const currentPageElement = document.getElementById('current-page');
+        const totalPagesElement = document.getElementById('total-pages');
         
         // Load the PDF
-        pdfjsLib.getDocument('./funyula.pdf').promise.then(function(pdf) {
+        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
             pdfDoc = pdf;
-            document.getElementById('totalPages').textContent = pdf.numPages;
+            totalPagesElement.textContent = pdf.numPages;
             
-            // Initial page render
+            // Enable navigation buttons
+            if (pdf.numPages > 1) {
+                nextButton.disabled = false;
+            }
+            
+            // Load first page
             renderPage(pageNum);
+        }).catch(function(error) {
+            console.error('Error loading PDF:', error);
+            
+            // Show error in the viewer
+            const container = document.querySelector('.pdf-container');
+            container.innerHTML = `
+                <div style="padding: 20px; text-align: center;">
+                    <h2>Error Loading PDF</h2>
+                    <p>${error.message}</p>
+                    <p>Please check if the PDF file exists at the specified path.</p>
+                </div>
+            `;
         });
         
-        // Render the page
+        // Render the specified page
         function renderPage(num) {
-            pageRendering = true;
-            
-            // Get page
             pdfDoc.getPage(num).then(function(page) {
-                const viewport = page.getViewport({ scale });
+                const viewport = page.getViewport({ scale: scale });
+                
+                // Create canvas for page
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
                 
+                // Clear the iframe and add the canvas
+                const iframe = document.getElementById('pdf-viewer');
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                iframeDoc.body.innerHTML = '';
+                iframeDoc.body.style.margin = '0';
+                iframeDoc.body.style.overflow = 'auto';
+                iframeDoc.body.appendChild(canvas);
+                
                 // Render PDF page
                 const renderContext = {
-                    canvasContext: ctx,
+                    canvasContext: context,
                     viewport: viewport
                 };
                 
-                const renderTask = page.render(renderContext);
+                page.render(renderContext);
+                currentPageElement.textContent = num;
                 
-                // Wait for rendering to finish
-                renderTask.promise.then(function() {
-                    pageRendering = false;
-                    document.getElementById('currentPage').textContent = num;
-                    
-                    if (pageNumPending !== null) {
-                        // New page rendering is pending
-                        renderPage(pageNumPending);
-                        pageNumPending = null;
-                    }
-                });
+                // Update button states
+                prevButton.disabled = num <= 1;
+                nextButton.disabled = num >= pdfDoc.numPages;
             });
         }
         
-        // Queue rendering of a page
-        function queueRenderPage(num) {
-            if (pageRendering) {
-                pageNumPending = num;
-            } else {
-                renderPage(num);
-            }
-        }
-        
         // Previous page
-        document.getElementById('prevBtn').addEventListener('click', function() {
+        prevButton.addEventListener('click', function() {
             if (pageNum <= 1) return;
             pageNum--;
-            queueRenderPage(pageNum);
+            renderPage(pageNum);
         });
         
         // Next page
-        document.getElementById('nextBtn').addEventListener('click', function() {
+        nextButton.addEventListener('click', function() {
             if (pageNum >= pdfDoc.numPages) return;
             pageNum++;
-            queueRenderPage(pageNum);
+            renderPage(pageNum);
+        });
+        
+        // Zoom in
+        zoomInButton.addEventListener('click', function() {
+            scale += 0.2;
+            renderPage(pageNum);
+        });
+        
+        // Zoom out
+        zoomOutButton.addEventListener('click', function() {
+            if (scale <= 0.4) return;
+            scale -= 0.2;
+            renderPage(pageNum);
         });
     </script>
 </body>
