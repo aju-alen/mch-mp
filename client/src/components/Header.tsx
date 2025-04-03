@@ -55,7 +55,7 @@ const Header = () => {
               {/* Action Buttons */}
               <div className="hidden md:flex items-center">
                 <a
-                  href="https://secure.winred.com/trump-national-committee-jfc/lp-website-contribute-button-victory"
+                  href=""
                   className="btn-contribute mr-2"
                   target="_blank"
                   rel="noopener noreferrer"
