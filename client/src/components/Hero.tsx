@@ -9,7 +9,7 @@ const Hero = () => {
         px-4 
         xl:px-4 
         2xl:px-0
-        mb-10 md:mb-36
+        mb-4 md:mb-48
       ">
         <div className="max-w-2xl 
           mx-auto 

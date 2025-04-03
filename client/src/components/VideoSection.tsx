@@ -9,6 +9,15 @@ interface Video {
 
 const VideoSection = () => {
   return (
+
+    <div className="">
+<div className="relative h-screen flex items-center justify-center bg-[url('https://dubaianalytica.com/wp-content/uploads/2025/03/97_1.3.1.jpg')] bg-cover bg-center bg-no-repeat">
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center px-4 mb-2 sm:mb-4">Gallery</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center px-4 mb-2 sm:mb-4">On The Campaign Trail</h1>
+        </div>
+      </div>
+    
     <section
       className="py-20 bg-trump-light-blue relative"
       style={{
@@ -18,20 +27,20 @@ const VideoSection = () => {
         backgroundBlendMode: 'soft-light',
         opacity: 0.95
       }}
-    >
+      >
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 text-white">
+        {/* <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 text-white">
           Gallery <span className="font-extrabold">TITLE HERE</span>. Main
-        </h2>
+        </h2> */}
 
         <div className="grid md:grid-cols-2 gap-8">
           {videos.map((video) => (
             <VideoCard
-              key={video.id}
-              id={video.id}
-              title={video.title}
-              description={video.description}
-              imageUrl={video.imageUrl}
+            key={video.id}
+            id={video.id}
+            title={video.title}
+            description={video.description}
+            imageUrl={video.imageUrl}
             />
           ))}
         </div>
@@ -40,6 +49,7 @@ const VideoSection = () => {
       {/* Red divider */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-trump-light-accent"></div>
     </section>
+          </div>
   );
 };
 

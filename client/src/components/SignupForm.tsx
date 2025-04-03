@@ -153,7 +153,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
           />
           <button
             type="submit"
-            className="sm:col-span-2 w-full bg-trump-light-accent text-white py-2 px-4 transition-colors hover:bg-trump-light-accent/90 flex items-center justify-center gap-2 rounded"
+            className="sm:col-span-2 w-full bg-trump-light-accent text-white py-2 px-4 transition-colors hover:bg-trump-light-accent/90 flex items-center justify-center gap-2 rounded font-bold"
             aria-label="Download your copy"
           >
             DOWNLOAD YOUR COPY

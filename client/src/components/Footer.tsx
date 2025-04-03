@@ -21,7 +21,7 @@ const Footer = () => {
     <footer className="bg-trump-maingreen text-trump-light-navy pt-16 pb-6">
       <div className="container mx-auto px-4">
         <div className="mb-14">
-          <h3 className="text-lg font-bold mb-4">DOWNLOAD THE FUNYULA 2027
+          <h3 className="text-lg font-bold mb-4 text-white">DOWNLOAD THE FUNYULA 2027
           AND BEYOND MANIFESTO</h3>
           <SignupForm variant="footer" />
         </div>
@@ -39,12 +39,14 @@ const Footer = () => {
 
   {/* Footer Nav Bar */}
   <div className="flex flex-col sm:flex-row flex-wrap gap-4 text-white justify-center sm:justify-end items-center">
-    <Link to="/news" className="hover:text-trump-light-accent transition-colors">PRIVACY POLICY</Link>
-    <Link to="/platform" className="hover:text-trump-light-accent transition-colors">TERMS & CONDITION</Link>
-    <Link to="/upcoming-projects" className="hover:text-trump-light-accent transition-colors">UPCOMING PROJECTS</Link>
-    <Link to="/gallery" className="hover:text-trump-light-accent transition-colors">GALLERY</Link>
-    <Link to="/get-involved" className="hover:text-trump-light-accent transition-colors">GET INVOLVED</Link>
+  <div className="grid grid-cols-2 sm:flex sm:flex-row gap-4 w-full sm:w-auto">
+    <Link to="/news" className="hover:text-trump-light-accent transition-colors text-center">PRIVACY POLICY</Link>
+    <Link to="/platform" className="hover:text-trump-light-accent transition-colors text-center">TERMS & CONDITION</Link>
+    <Link to="/upcoming-projects" className="hover:text-trump-light-accent transition-colors text-center">UPCOMING PROJECTS</Link>
+    <Link to="/gallery" className="hover:text-trump-light-accent transition-colors text-center">GALLERY</Link>
+    <Link to="/get-involved" className="hover:text-trump-light-accent transition-colors text-center">GET INVOLVED</Link>
   </div>
+</div>
 </div>
 
       </div>

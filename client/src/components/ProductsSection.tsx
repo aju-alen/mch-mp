@@ -10,7 +10,7 @@ const ProductShowcase = () => {
     {
       id: 1,
       name: '',
-      image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/platform.jpg',
+      image: 'https://dubaianalytica.com/wp-content/uploads/2025/03/89_1.47.1.jpg',
       url: ''
     },
     {
@@ -172,7 +172,7 @@ const ProductShowcase = () => {
 
           {/* Large Active YouTube Video */}
           <div className="mb-6 relative">
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full">
+            <div className="bg-white  shadow-lg overflow-hidden h-full">
               <div className="aspect-w-16 aspect-h-9 h-96">
                 <iframe
                   src={`https://www.youtube.com/embed/${videos[activeVideoIndex].youtubeId}?autoplay=0&modestbranding=1&rel=0`}
