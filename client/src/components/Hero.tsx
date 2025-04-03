@@ -9,7 +9,7 @@ const Hero = () => {
         px-4 
         xl:px-4 
         2xl:px-0
-        mb-10 md:mb-24
+        mb-10 md:mb-36
       ">
         <div className="max-w-2xl 
           mx-auto 
@@ -30,7 +30,7 @@ const Hero = () => {
             "A NEW FUTURE FOR FUNYULA BEGINS<br/>RIGHT NOW."
           </h1>
 
-          <p className="text-[1rem] sm:text-xl md:text-2xl 
+          <p className="text-[1rem] sm:text-xl md:text-[16px] 
             font-semibold 
             text-white 
             mb-6 
