@@ -56,7 +56,19 @@ const Header = () => {
               <div className="hidden md:flex items-center">
                 <a
                   href=""
-                  className="btn-contribute mr-2"
+                  className="btn-primary 
+                w-full 
+                sm:w-auto 
+                text-center 
+                max-w-[300px] 
+                mx-auto 
+                xl:mx-0
+                py-3
+                px-6
+                uppercase
+                tracking-wider
+                transition-all
+                duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
