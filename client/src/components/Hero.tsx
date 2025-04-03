@@ -4,13 +4,12 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40"></div>
       <div className="container relative z-10 
         md:absolute 
-        md:bottom-60
         bottom-0 
         md:right-18
         px-4 
         xl:px-4 
         2xl:px-0
-        mb-10 md:mb-0
+        mb-10 md:mb-24
       ">
         <div className="max-w-2xl 
           mx-auto 
@@ -19,7 +18,7 @@ const Hero = () => {
           px-4 
           xl:px-0
         ">
-          <h1 className="text-3xl  md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl 
+          <h1 className="text-3xl  md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-[52px] 
             font-black md:font-extrabold  
             text-white 
             leading-tight
