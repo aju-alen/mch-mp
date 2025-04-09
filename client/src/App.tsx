@@ -8,6 +8,7 @@ import Upcomingprojectspage from './pages/UpcomingProjectsPage';
 import GaleryPage from './pages/GaleryPage';
 import VolunteerPage from './pages/VolunteerPage';
 import SocialLinks from './components/SocialLinks';
+import Contribute from './pages/Contribute';
 
 function App() {
 
@@ -51,6 +52,10 @@ function App() {
       {
         path: "get-involved",
         element: <VolunteerPage />,
+      },
+      {
+        path: "contribute",
+        element: <Contribute />,
       },
     ]
   }]);

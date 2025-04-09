@@ -18,8 +18,8 @@ const VideoCard = ({ id, title, description, imageUrl }: VideoCardProps) => {
         />
       </div>
       <div className="p-5">
-        <h3 className="text-xl font-bold mb-2 text-trump-light-navy">{title}</h3>
-        <p className="text-gray-700 text-sm mb-4 line-clamp-2">{description}</p>
+        {/* <h3 className="text-xl font-bold mb-2 text-trump-light-navy">{title}</h3>
+        <p className="text-gray-700 text-sm mb-4 line-clamp-2">{description}</p> */}
 
         <div className="flex items-center gap-3 border-t border-gray-200 pt-3">
           <a
