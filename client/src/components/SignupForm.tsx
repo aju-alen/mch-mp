@@ -104,7 +104,8 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
       }
       
       // Verify code using Firebase
-      await verifyCode(confirmationResult, verificationCode);
+      const result = await verifyCode(confirmationResult, verificationCode);
+      console.log('Code verified successfully!', result);
       
       // Also send verification to your backend
       const verificationData = {
@@ -112,23 +113,24 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         verificationCode
       };
       
-      // const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/verify`, verificationData);
       
-      // if (response.status === 200) {
-      //   alert(response.data.message || 'Verification successful!');
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, verificationData);
+
+      if (response.status === 200) {
+        alert(response.data.message || 'Verification successful!');
         
-      //   // Open new tab with a given link
-      //   window.open('https://fpfplatform.funyula.com/', '_blank');
+        // Open new tab with a given link
+        window.open('https://fpfplatform.funyula.com/', '_blank');
         
-      //   // Reset all form fields after successful verification
-      //   setFullName('');
-      //   setLocation('');
-      //   setSubLocation('');
-      //   setPhoneNumber('');
-      //   setVerificationCode('');
-      //   setVerifyPhoneNumber(false);
-      //   setConfirmationResult(null);
-      // }
+        // Reset all form fields after successful verification
+        setFullName('');
+        setLocation('');
+        setSubLocation('');
+        setPhoneNumber('');
+        setVerificationCode('');
+        setVerifyPhoneNumber(false);
+        setConfirmationResult(null);
+      }
     }
     catch (error: any) {
       console.error('Error verifying code:', error);
