@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { setupRecaptcha, sendVerificationCode, verifyCode } from '../utils/firebase';
 
 interface SignupFormProps {
   variant?: 'default' | 'footer';
@@ -12,78 +13,143 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verifyPhoneNumber, setVerifyPhoneNumber] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const recaptchaContainerRef = useRef<HTMLDivElement>(null);
+  const recaptchaVerifierRef = useRef<any>(null);
+
+  // Initialize reCAPTCHA when component mounts
+  useEffect(() => {
+    // Clear any existing reCAPTCHA
+    if (recaptchaContainerRef.current) {
+      recaptchaContainerRef.current.innerHTML = '';
+      
+      // Set up new reCAPTCHA
+      try {
+        recaptchaVerifierRef.current = setupRecaptcha('recaptcha-container');
+        console.log('reCAPTCHA initialized');
+      } catch (error) {
+        console.error('Error initializing reCAPTCHA:', error);
+        setError('Failed to initialize verification. Please refresh the page and try again.');
+      }
+    }
+    
+    // Clean up on unmount
+    return () => {
+      if (recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current.clear();
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
     try {
       console.log('Form submitted:', { fullName, location, subLocation, phoneNumber });
   
+      // Format phone number to E.164 format (required by Firebase)
+      const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+      
+      console.log('Formatted phone number:', formattedPhoneNumber);
+      
+      if (!recaptchaVerifierRef.current) {
+        throw new Error('Verification not initialized. Please refresh the page and try again.');
+      }
+      
+      // Send verification code using Firebase
+      const result = await sendVerificationCode(formattedPhoneNumber, recaptchaVerifierRef.current);
+      setConfirmationResult(result);
+      setVerifyPhoneNumber(true);
+      
+      console.log('Verification result:', result);
+      
+      // Also send data to your backend
       const formData = {
         fullName,
         location,
         subLocation,
-        phoneNumber
+        phoneNumber: formattedPhoneNumber
       };
   
-      const verifyPhoneNumber = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
-      
-      console.log('verifyPhoneNumber:', verifyPhoneNumber);
-      
-      // if (verifyPhoneNumber.status === 200) {
-      //   alert(verifyPhoneNumber.data.message);
-  
-      //   // Open new tab with a given link (Change the URL accordingly)
-      //   window.open('https://fpfplatform.funyula.com/', '_blank');
-      // }
-      
-      if (verifyPhoneNumber.status === 200) {
-        setVerifyPhoneNumber(true);
-      }
-
-      // Reset form fields only if verification is not required
-      if (!verifyPhoneNumber) {
-        setFullName('');
-        setLocation('');
-        setSubLocation('');
-        setPhoneNumber('');
-      }
+      // await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
     } 
-    catch (error) {
+    catch (error: any) {
       console.error('Error submitting form:', error);
-      alert('An error occurred while submitting the form. Please try again later.');
+      setError(error.message || 'An error occurred while submitting the form. Please try again later.');
+      
+      // Reset reCAPTCHA on error
+      if (recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current.clear();
+        recaptchaVerifierRef.current = setupRecaptcha('recaptcha-container');
+      }
+    } finally {
+      setLoading(false);
     }
   };
   
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
     try {
       console.log('Verification code submitted:', verificationCode);
       
+      if (!confirmationResult) {
+        throw new Error('Verification session expired. Please try again.');
+      }
+      
+      // Verify code using Firebase
+      await verifyCode(confirmationResult, verificationCode);
+      
+      // Also send verification to your backend
       const verificationData = {
-        phoneNumber,
+        phoneNumber: formatPhoneNumber(phoneNumber),
         verificationCode
       };
       
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/verify`, verificationData);
+      // const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/verify`, verificationData);
       
-      if (response.status === 200) {
-        alert(response.data.message || 'Verification successful!');
+      // if (response.status === 200) {
+      //   alert(response.data.message || 'Verification successful!');
         
-        // Open new tab with a given link
-        window.open('https://fpfplatform.funyula.com/', '_blank');
+      //   // Open new tab with a given link
+      //   window.open('https://fpfplatform.funyula.com/', '_blank');
         
-        // Reset all form fields after successful verification
-        setFullName('');
-        setLocation('');
-        setSubLocation('');
-        setPhoneNumber('');
-        setVerificationCode('');
-        setVerifyPhoneNumber(false);
-      }
+      //   // Reset all form fields after successful verification
+      //   setFullName('');
+      //   setLocation('');
+      //   setSubLocation('');
+      //   setPhoneNumber('');
+      //   setVerificationCode('');
+      //   setVerifyPhoneNumber(false);
+      //   setConfirmationResult(null);
+      // }
     }
-    catch (error) {
+    catch (error: any) {
       console.error('Error verifying code:', error);
-      alert('Invalid verification code. Please try again.');
+      setError(error.message || 'Invalid verification code. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Helper function to format phone number to E.164 format
+  const formatPhoneNumber = (phone: string): string => {
+    // Remove all non-digit characters
+    const cleaned = phone.replace(/\D/g, '');
+    
+    // Add country code if not present (assuming Kenya +254)
+    if (cleaned.startsWith('254')) {
+      return `+${cleaned}`;
+    } else if (cleaned.startsWith('0')) {
+      return `+254${cleaned.substring(1)}`;
+    } else {
+      return `+254${cleaned}`;
     }
   };
 
@@ -94,20 +160,22 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
       </div>
       <input
         type="text"
-        placeholder="Enter 4-digit verification code"
+        placeholder="Enter 6-digit verification code"
         className="w-full px-4 py-3 text-trump-light-navy bg-gray-50 focus:outline-none border border-gray-200 rounded-lg focus:border-trump-light-accent focus:ring-2 focus:ring-trump-light-accent/20 transition-all"
         value={verificationCode}
-        onChange={(e) => setVerificationCode(e.target.value.slice(0, 4))}
-        maxLength={4}
-        pattern="[0-9]{4}"
+        onChange={(e) => setVerificationCode(e.target.value.slice(0, 6))}
+        maxLength={6}
+        pattern="[0-9]{6}"
         required
       />
+      {error && <div className="text-red-500 text-sm">{error}</div>}
       <button
         type="submit"
         className="w-full bg-trump-light-accent text-white py-3.5 px-6 rounded-lg transition-all hover:bg-trump-light-accent/90 hover:shadow-lg active:transform active:scale-[0.98] flex items-center justify-center gap-4 font-semibold text-base sm:text-lg"
         aria-label="Verify code"
+        disabled={loading}
       >
-        VERIFY CODE
+        {loading ? 'VERIFYING...' : 'VERIFY CODE'}
       </button>
     </form>
   );
@@ -151,12 +219,15 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
           />
+          <div id="recaptcha-container" ref={recaptchaContainerRef} className="sm:col-span-2 flex justify-center my-2"></div>
+          {error && <div className="text-red-500 text-sm sm:col-span-2">{error}</div>}
           <button
             type="submit"
             className="sm:col-span-2 w-full bg-trump-light-accent text-white py-2 px-4 transition-colors hover:bg-trump-light-accent/90 flex items-center justify-center gap-2 rounded font-bold"
             aria-label="Download your copy"
+            disabled={loading}
           >
-            DOWNLOAD YOUR COPY
+            {loading ? 'SENDING...' : 'DOWNLOAD YOUR COPY'}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -178,24 +249,26 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
           <div className="w-full max-w-md">
             <form onSubmit={handleVerifyCode} className="grid grid-cols-1 gap-2">
               <div className="col-span-1 text-center text-trump-light-navy text-sm mb-2">
-                Enter the 4-digit verification code sent to your phone
+                Enter the 6-digit verification code sent to your phone
               </div>
               <input
                 type="text"
-                placeholder="4-digit code"
+                placeholder="6-digit code"
                 className="w-full px-3 py-2 text-trump-light-navy focus:outline-none border border-gray-200 rounded"
                 value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value.slice(0, 4))}
-                maxLength={4}
-                pattern="[0-9]{4}"
+                onChange={(e) => setVerificationCode(e.target.value.slice(0, 6))}
+                maxLength={6}
+                pattern="[0-9]{6}"
                 required
               />
+              {error && <div className="text-red-500 text-sm">{error}</div>}
               <button
                 type="submit"
                 className="w-full bg-trump-light-accent text-white py-2 px-4 transition-colors hover:bg-trump-light-accent/90 flex items-center justify-center gap-2 rounded"
                 aria-label="Verify code"
+                disabled={loading}
               >
-                VERIFY CODE
+                {loading ? 'VERIFYING...' : 'VERIFY CODE'}
               </button>
             </form>
           </div>
@@ -258,12 +331,15 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
               onChange={(e) => setPhoneNumber(e.target.value)}
               required
             />
+            <div id="recaptcha-container" ref={recaptchaContainerRef} className="flex justify-center my-2"></div>
+            {error && <div className="text-red-500 text-sm">{error}</div>}
             <button
               type="submit"
               className="w-full bg-trump-light-accent text-white py-3.5 px-6 rounded-lg transition-all hover:bg-trump-light-accent/90 hover:shadow-lg active:transform active:scale-[0.98] flex items-center justify-center gap-4 font-semibold text-base sm:text-lg"
               aria-label="Download your copy"
+              disabled={loading}
             >
-              DOWNLOAD YOUR COPY
+              {loading ? 'SENDING...' : 'DOWNLOAD YOUR COPY'}
             </button>
           </form>
         ) : (
