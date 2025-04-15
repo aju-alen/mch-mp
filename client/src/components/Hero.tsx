@@ -5,8 +5,8 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40"></div>
       <div className="container relative z-10 
         md:absolute 
-        bottom-0 
-        md:right-18
+        md:bottom-30 
+        md:right-16
         px-4 
         xl:px-4 
         2xl:px-0
