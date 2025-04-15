@@ -43,7 +43,7 @@ const PlatformPage = () => {
 
       {/* Red Box Call-to-Action */}
       <div className="bg-trump-red  text-white py-6 md:px-4 text-center w-5/6 md:w-3/5 mx-auto z-20">
-        <h4 className=" text-sm md:text-2xl font-bold">READ THE OFFICIAL 2027 FUTURE-PROOF FUNYULA PLATFORM<a href="https://fpfplatform.funyula.com/" className="underline" target="_blank" rel="noopener noreferrer">HERE</a></h4>
+        <h4 className=" text-sm md:text-2xl font-bold">READ THE OFFICIAL 2027 FUTURE-PROOF FUNYULA PLATFORM <a href="https://fpfplatform.funyula.com/" className="underline" target="_blank" rel="noopener noreferrer">HERE</a></h4>
         <h4 className="text-sm md:text-3xl
           px-4
           font-bold 
