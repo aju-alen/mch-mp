@@ -2,10 +2,10 @@ const Hero = () => {
   return (
     <div className="relative h-screen flex items-center justify-center bg-[url('https://dubaianalytica.com/wp-content/uploads/2025/03/112_1.15.2.jpg')] bg-cover bg-center bg-no-repeat">
       <div className="absolute inset-0 bg-black/40"></div>
-      <div className="container relative z-10 
-        md:absolute 
+      <div className="container  z-10 
+
         bottom-0 
-        md:right-0
+        md:right-20
         px-6 min-w-[320px]
         xl:px-8 
         2xl:px-10

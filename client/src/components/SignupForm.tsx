@@ -16,6 +16,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const recaptchaContainerRef = useRef<HTMLDivElement>(null);
   const recaptchaVerifierRef = useRef<any>(null);
 
@@ -47,6 +48,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccessMessage(null);
     
     try {
       console.log('Form submitted:', { fullName, location, subLocation, phoneNumber });
@@ -61,11 +63,15 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
       }
       
       // Send verification code using Firebase
+      console.log('Sending verification code to:', formattedPhoneNumber);
       const result = await sendVerificationCode(formattedPhoneNumber, recaptchaVerifierRef.current);
+      console.log('result', result);
+      
       setConfirmationResult(result);
       setVerifyPhoneNumber(true);
+      setSuccessMessage(`Verification code sent to ${formattedPhoneNumber}. Please check your phone and enter the code below.`);
       
-      console.log('Verification result:', result);
+      console.log('Verification code sent successfully!');
       
       // Also send data to your backend
       const formData = {
@@ -95,6 +101,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccessMessage(null);
     
     try {
       console.log('Verification code submitted:', verificationCode);
@@ -104,6 +111,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
       }
       
       // Verify code using Firebase
+      console.log('Verifying code...');
       const result = await verifyCode(confirmationResult, verificationCode);
       console.log('Code verified successfully!', result);
       
@@ -113,23 +121,28 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         verificationCode
       };
       
+      setSuccessMessage('Verification successful! Redirecting...');
       
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, verificationData);
 
       if (response.status === 200) {
-        alert(response.data.message || 'Verification successful!');
-        
-        // Open new tab with a given link
-        window.open('https://fpfplatform.funyula.com/', '_blank');
-        
-        // Reset all form fields after successful verification
-        setFullName('');
-        setLocation('');
-        setSubLocation('');
-        setPhoneNumber('');
-        setVerificationCode('');
-        setVerifyPhoneNumber(false);
-        setConfirmationResult(null);
+        // Wait a moment to show the success message
+        setTimeout(() => {
+          alert('Verification successful! You can now download the manifesto.');
+          
+          // Open new tab with a given link
+          window.open('https://fpfplatform.funyula.com/', '_blank');
+          
+          // Reset all form fields after successful verification
+          setFullName('');
+          setLocation('');
+          setSubLocation('');
+          setPhoneNumber('');
+          setVerificationCode('');
+          setVerifyPhoneNumber(false);
+          setConfirmationResult(null);
+          setSuccessMessage(null);
+        }, 1500);
       }
     }
     catch (error: any) {
@@ -171,6 +184,11 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         required
       />
       {error && <div className="text-red-500 text-sm">{error}</div>}
+      {successMessage && (
+        <div className="text-green-600 bg-green-50 p-3 rounded-lg text-center font-medium">
+          {successMessage}
+        </div>
+      )}
       <button
         type="submit"
         className="w-full bg-trump-light-accent text-white py-3.5 px-6 rounded-lg transition-all hover:bg-trump-light-accent/90 hover:shadow-lg active:transform active:scale-[0.98] flex items-center justify-center gap-4 font-semibold text-base sm:text-lg"
@@ -184,10 +202,10 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
 
   if (variant === 'footer') {
     return (
-      <div>
+      <div className="w-full max-w-md ">
         <form
           onSubmit={handleSubmit}
-          className={`grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md ${verifyPhoneNumber ? 'hidden' : ''}`}
+          className={`grid grid-cols-1 sm:grid-cols-2 gap-2 w-full ${verifyPhoneNumber ? 'hidden' : ''}`}
         >
           <input
             type="text"
@@ -223,6 +241,11 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
           />
           <div id="recaptcha-container" ref={recaptchaContainerRef} className="sm:col-span-2 flex justify-center my-2"></div>
           {error && <div className="text-red-500 text-sm sm:col-span-2">{error}</div>}
+          {successMessage && (
+            <div className="text-green-600 bg-green-50 p-3 rounded-lg text-center font-medium sm:col-span-2">
+              {successMessage}
+            </div>
+          )}
           <button
             type="submit"
             className="sm:col-span-2 w-full bg-trump-light-accent text-white py-2 px-4 transition-colors hover:bg-trump-light-accent/90 flex items-center justify-center gap-2 rounded font-bold"
@@ -248,7 +271,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         </form>
         
         {verifyPhoneNumber && (
-          <div className="w-full max-w-md">
+          <div className="w-full">
             <form onSubmit={handleVerifyCode} className="grid grid-cols-1 gap-2">
               <div className="col-span-1 text-center text-trump-light-navy text-sm mb-2">
                 Enter the 6-digit verification code sent to your phone
@@ -264,6 +287,11 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
                 required
               />
               {error && <div className="text-red-500 text-sm">{error}</div>}
+              {successMessage && (
+                <div className="text-green-600 bg-green-50 p-3 rounded-lg text-center font-medium">
+                  {successMessage}
+                </div>
+              )}
               <button
                 type="submit"
                 className="w-full bg-trump-light-accent text-white py-2 px-4 transition-colors hover:bg-trump-light-accent/90 flex items-center justify-center gap-2 rounded"
@@ -282,20 +310,20 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
   return (
     <section 
       id="join-movement" 
-      className="bg-white shadow-2xl border border-gray-200 rounded-sm w-full md:w-2/3 lg:w-1/2 xl:w-2/5 mx-auto md:mx-12  relative z-10 overflow-hidden"
+      className="bg-white shadow-2xl border border-gray-200 rounded-sm w-full md:w-2/3 lg:w-1/2 xl:w-2/5 mx-auto md:mx-32 relative z-10 overflow-hidden"
     >
       <div className="bg-trump-light-accent py-4 md:py-6">
         <div className="container mx-auto px-4">
-          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black text-white text-center mb-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white text-center mb-2">
             DOWNLOAD THE FUNYULA 2027 
           </h2>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white text-center mb-2">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center mb-2">
            AND BEYOND MANIFESTO
           </h2>
         </div>
       </div>
 
-      <div className="container mx-auto p-4 md:p-8">
+      <div className="container mx-auto p-4 md:p-6 lg:p-8">
         {!verifyPhoneNumber ? (
           <form
             onSubmit={handleSubmit}
@@ -335,6 +363,11 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
             />
             <div id="recaptcha-container" ref={recaptchaContainerRef} className="flex justify-center my-2"></div>
             {error && <div className="text-red-500 text-sm">{error}</div>}
+            {successMessage && (
+              <div className="text-green-600 bg-green-50 p-3 rounded-lg text-center font-medium">
+                {successMessage}
+              </div>
+            )}
             <button
               type="submit"
               className="w-full bg-trump-light-accent text-white py-3.5 px-6 rounded-lg transition-all hover:bg-trump-light-accent/90 hover:shadow-lg active:transform active:scale-[0.98] flex items-center justify-center gap-4 font-semibold text-base sm:text-lg"

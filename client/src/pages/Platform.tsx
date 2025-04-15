@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const PlatformPage = () => {
   // Array of 20 platform items
