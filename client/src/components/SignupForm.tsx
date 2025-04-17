@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ReactNode } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { setupRecaptcha, sendVerificationCode, verifyCode } from '../utils/firebase';
 
@@ -16,7 +16,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | ReactNode | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const recaptchaContainerRef = useRef<HTMLDivElement>(null);
   const recaptchaVerifierRef = useRef<any>(null);
 
@@ -124,60 +124,27 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         subLocation
       };
       
-      setSuccessMessage('Verification successful! Redirecting to download page...');
+      setSuccessMessage('Verification successful! Redirecting...');
       
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, verificationData);
 
       if (response.status === 200) {
-        // Store user data in localStorage for potential future use
-        localStorage.setItem('userData', JSON.stringify({
-          fullName,
-          location,
-          subLocation,
-          phoneNumber: formatPhoneNumber(phoneNumber),
-          verified: true,
-          timestamp: new Date().toISOString()
-        }));
-        
         // Wait a moment to show the success message
-        setTimeout(() => {
-          // Redirect to the download page
-          const downloadUrl = 'https://fpfplatform.funyula.com/';
+
+          alert('Verification successful! You can now view and download the manifesto.');
           
-          try {
-            // Try to open in a new tab
-            const newTab = window.open(downloadUrl, '_blank');
-            
-            // Check if the tab was blocked by a popup blocker
-            if (newTab === null) {
-              // If blocked, show a message with a clickable link
-              setSuccessMessage(
-                <div className="text-green-600 bg-green-50 p-3 rounded-lg text-center font-medium">
-                  Verification successful! <a href={downloadUrl} className="underline font-bold">Click here</a> to download the manifesto.
-                </div>
-              );
-            } else {
-              // If successful, reset the form after a delay
-              setTimeout(() => {
-                setFullName('');
-                setLocation('');
-                setSubLocation('');
-                setPhoneNumber('');
-                setVerificationCode('');
-                setVerifyPhoneNumber(false);
-                setConfirmationResult(null);
-                setSuccessMessage(null);
-              }, 3000);
-            }
-          } catch (error) {
-            console.error('Error redirecting:', error);
-            setSuccessMessage(
-              <div className="text-green-600 bg-green-50 p-3 rounded-lg text-center font-medium">
-                Verification successful! <a href={downloadUrl} className="underline font-bold">Click here</a> to download the manifesto.
-              </div>
-            );
-          }
-        }, 1500);
+          // Open new tab with a given link
+          window.open('https://fpfplatform.funyula.com/', '_blank');
+          
+          // Reset all form fields after successful verification
+          setFullName('');
+          setLocation('');
+          setSubLocation('');
+          setPhoneNumber('');
+          setVerificationCode('');
+          setVerifyPhoneNumber(false);
+          setConfirmationResult(null);
+          setSuccessMessage(null);
       }
     }
     catch (error: any) {
