@@ -118,7 +118,10 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
       // Also send verification to your backend
       const verificationData = {
         phoneNumber: formatPhoneNumber(phoneNumber),
-        verificationCode
+        verificationCode,
+        fullName,
+        location,
+        subLocation
       };
       
       setSuccessMessage('Verification successful! Redirecting...');
