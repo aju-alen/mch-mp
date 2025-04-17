@@ -158,14 +158,8 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
     // Remove all non-digit characters
     const cleaned = phone.replace(/\D/g, '');
     
-    // Add country code if not present (assuming Kenya +254)
-    if (cleaned.startsWith('254')) {
-      return `+${cleaned}`;
-    } else if (cleaned.startsWith('0')) {
-      return `+254${cleaned.substring(1)}`;
-    } else {
-      return `+254${cleaned}`;
-    }
+    // Always return with +254 prefix
+    return `+254${cleaned}`;
   };
 
   const renderVerificationForm = () => (
@@ -231,14 +225,23 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
             onChange={(e) => setSubLocation(e.target.value)}
             required
           />
-          <input
-            type="tel"
-            placeholder="Phone Number"
-            className="w-full px-3 py-2 text-trump-light-navy focus:outline-none border border-gray-200 rounded"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            required
-          />
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+              +254
+            </div>
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              className="w-full pl-12 pr-3 py-2 text-trump-light-navy focus:outline-none border border-gray-200 rounded"
+              value={phoneNumber}
+              onChange={(e) => {
+                // Only allow digits
+                const value = e.target.value.replace(/\D/g, '');
+                setPhoneNumber(value);
+              }}
+              required
+            />
+          </div>
           <div id="recaptcha-container" ref={recaptchaContainerRef} className="sm:col-span-2 flex justify-center my-2"></div>
           {error && <div className="text-red-500 text-sm sm:col-span-2">{error}</div>}
           {successMessage && (
@@ -353,14 +356,23 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
               onChange={(e) => setSubLocation(e.target.value)}
               required
             />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              className="w-full px-4 py-3 text-trump-light-navy bg-gray-50 focus:outline-none border border-gray-200 rounded-lg focus:border-trump-light-accent focus:ring-2 focus:ring-trump-light-accent/20 transition-all"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500">
+                +254
+              </div>
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                className="w-full pl-14 pr-4 py-3 text-trump-light-navy bg-gray-50 focus:outline-none border border-gray-200 rounded-lg focus:border-trump-light-accent focus:ring-2 focus:ring-trump-light-accent/20 transition-all"
+                value={phoneNumber}
+                onChange={(e) => {
+                  // Only allow digits
+                  const value = e.target.value.replace(/\D/g, '');
+                  setPhoneNumber(value);
+                }}
+                required
+              />
+            </div>
             <div id="recaptcha-container" ref={recaptchaContainerRef} className="flex justify-center my-2"></div>
             {error && <div className="text-red-500 text-sm">{error}</div>}
             {successMessage && (
