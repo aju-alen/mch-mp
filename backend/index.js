@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import volunteerRouter from './route/volunteer-Route.js';
 import africastalkingRouter from './route/africastalking-Route.js';
+import dajariaRouter from './route/dajaria-router.js';
 import { corsOptions } from './utils/corsFe.js';
 import { errorHandler } from './middleware/errorHandler.js';
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use('/api/volunteer', volunteerRouter);
 app.use('/api/africastalking',africastalkingRouter);
+app.use('/api/dajaria',dajariaRouter);
 
 
 app.use(errorHandler);

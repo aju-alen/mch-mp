@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100">
       <iframe
-        src="/document.pdf"
+        src="/sample.pdf"
         className="w-full h-screen"
         title="PDF Viewer"
       />
