@@ -13,7 +13,7 @@ function HtmlRenderer({ content }) {
 
 const SingleNews: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const newsItem = newsItems.find(item => item.id === parseInt(id));
+    const newsItem = newsItems.find(item => item.link === `/news/${id}`);
 
     console.log(`Rendering SingleNews for ID: ${id}`, newsItem);
 
@@ -38,7 +38,7 @@ const SingleNews: React.FC = () => {
 
       {/* Article header */}
       <div className="mb-8">
-        <h1 className="text-3xl lg:text-4xl font-bold text-trump-blue mb-4 leading-tight">
+        <h1 className="text-3xl lg:text-4xl font-bold  text-trump-maingreen mb-4 leading-tight">
             {newsItem ? newsItem.title : 'Loading...'}
         </h1>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">

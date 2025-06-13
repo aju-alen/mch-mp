@@ -1,9 +1,9 @@
   export const newsItems = [
     {
       id: 1,
-      date: 'January 17, 2025',
+      date: 'June 13, 2025',
       title: 'VISION 2027: FUTURE-PROOF FUNYULA PLATFORM',
-      link: '/news/1',
+      link: '/news/fpfp1',
       content:` 
       <div>
       <p style=" font-size:1.25rem;">The only way to make Funyula Constituency sustainable and restore the fabric of our glorious Samia!</p>

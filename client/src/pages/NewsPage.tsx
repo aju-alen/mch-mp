@@ -19,6 +19,9 @@ const NewsPage = () => {
     return newsItems.slice(startIndex, endIndex);
   }, [page, newsItems]);
 
+  console.log(currentPageItems);
+  
+
   // Generate pagination buttons
   const renderPaginationButtons = () => {
     const buttons = [];
