@@ -13,7 +13,8 @@ const VideoCard = ({ id, title, description, imageUrl }: VideoCardProps) => {
         <img
           src={imageUrl}
           alt={title}
-          className="absolute top-0 left-0 w-full h-full object-cover"
+          className="absolute top-0 left-0 w-full h-full object-contain"
+          loading="lazy"
         />
       </div>
       <div className="p-5">

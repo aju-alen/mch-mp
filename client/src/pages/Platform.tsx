@@ -57,7 +57,7 @@ const PlatformPage = () => {
       <div className="max-w-4xl mx-auto pt-16 px-4 ">
         {platformItems.map((item, index) => (
           <div key={index} className="flex mb-6">
-            <div className="bg-trump-blue text-white font-bold w-10 h-10 flex justify-center items-center flex-shrink-0">
+            <div className="bg-trump-maingreen text-white font-bold w-10 h-10 flex justify-center items-center flex-shrink-0">
               {index + 1}
             </div>
             <div className="ml-4 flex items-center">

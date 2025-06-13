@@ -46,7 +46,31 @@ const ProductShowcase = () => {
       title: 'Campaign Commercial',
       youtubeId: 'zoWirgI4Jkg',
       thumbnail: `https://dubaianalytica.com/wp-content/uploads/2025/03/platform.jpg`
-    }
+    },
+    {
+      id: 4,
+      title: 'Campaign Commercial',
+      youtubeId: 'aqj36JUZuy4',
+      thumbnail: `https://dubai-analytica.s3.ap-south-1.amazonaws.com/funyula-images/20250416_013911000_iOS.jpg`
+    },
+    {
+      id: 5,
+      title: 'Campaign Commercial',
+      youtubeId: '1f9Z9llnVvw',
+      thumbnail: `https://dubai-analytica.s3.ap-south-1.amazonaws.com/funyula-images/20250416_145500000_iOS.jpg`
+    },
+    {
+      id: 6,
+      title: 'Campaign Commercial',
+      youtubeId: 'ONE_NcJZqCc',
+      thumbnail: `https://dubai-analytica.s3.ap-south-1.amazonaws.com/funyula-images/20250416_145509000_iOS.jpg`
+    },
+    {
+      id: 7,
+      title: 'Campaign Commercial',
+      youtubeId: 'gz-pnHsCoFg',
+      thumbnail: `https://dubai-analytica.s3.ap-south-1.amazonaws.com/funyula-images/20250416_145512000_iOS.jpg`
+    },
   ];
 
   const handleNextImage = () => {

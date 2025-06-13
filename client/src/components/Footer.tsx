@@ -26,7 +26,7 @@ const Footer = () => {
           <SignupForm variant="footer" />
         </div>
 
-        <div className="text-xs text-white border-t border-gray-200 pt-6 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left px-4 sm:px-8 lg:px-16">
+        <div className="text-xs text-white border-t border-gray-200 pt-6 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left px-4 sm:px-0 lg:px-16">
   {/* Left Section */}
   <div className="flex flex-col gap-2 max-w-md">
     {/* <p className="mb-3">
@@ -38,13 +38,13 @@ const Footer = () => {
   </div>
 
   {/* Footer Nav Bar */}
-  <div className="flex flex-col sm:flex-row flex-wrap gap-4 text-white justify-center sm:justify-end items-center">
-  <div className="grid grid-cols-2 sm:flex sm:flex-row gap-4 w-full sm:w-auto">
-    <Link to="/news" className="hover:text-trump-light-accent transition-colors text-center">PRIVACY POLICY</Link>
-    <Link to="/platform" className="hover:text-trump-light-accent transition-colors text-center">TERMS & CONDITION</Link>
-    <Link to="/upcoming-projects" className="hover:text-trump-light-accent transition-colors text-center">UPCOMING PROJECTS</Link>
-    <Link to="/gallery" className="hover:text-trump-light-accent transition-colors text-center">GALLERY</Link>
-    <Link to="/get-involved" className="hover:text-trump-light-accent transition-colors text-center">GET INVOLVED</Link>
+  <div className="flex flex-col sm:flex-row flex-wrap  sm:justify-end w-full ">
+  <div className="grid grid-cols-2 sm:flex sm:flex-row gap-4  ">
+    <Link to="/upcoming-projects" className="hover:text-trump-light-accent transition-colors text-left">Upcoming Projects</Link>
+    <Link to="/get-involved" className="hover:text-trump-light-accent transition-colors text-left">Get Involved</Link>
+    <Link to="/news" className="hover:text-trump-light-accent transition-colors text-left">News</Link>
+    <Link to="/" className="hover:text-trump-light-accent transition-colors text-left">Terms & Conditions</Link>
+    <Link to="/" className="hover:text-trump-light-accent transition-colors text-left">Privacy Policy</Link>
   </div>
 </div>
 </div>

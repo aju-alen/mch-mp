@@ -10,6 +10,7 @@ import GaleryPage from './pages/GaleryPage';
 import VolunteerPage from './pages/VolunteerPage';
 import SocialLinks from './components/SocialLinks';
 import Contribute from './pages/Contribute';
+import SingleNews from './pages/SingleNews';
 import { initGA, logPageView } from './utils/google-analytics'
 
 const RouteChangeTracker = () => {
@@ -53,6 +54,7 @@ function App() {
         { path: "gallery", element: <GaleryPage /> },
         { path: "get-involved", element: <VolunteerPage /> },
         { path: "contribute", element: <Contribute /> },
+        { path: "news/:id", element: <SingleNews /> },
       ],
     },
   ]);
