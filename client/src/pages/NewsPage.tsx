@@ -184,7 +184,7 @@ const NewsPage = () => {
                 to={item.link}
                 className="block border-b border-gray-200 pb-6 hover:bg-gray-50 transition duration-150"
               >
-                <div className="text-sm text-gray-600">{item.date}</div>
+                {/* <div className="text-sm text-gray-600">{item.date}</div> */}
                 <h3 className="text-xl font-bold text-[#263a66]">{item.title}</h3>
               </Link>
             ))}
