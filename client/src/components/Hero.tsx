@@ -12,9 +12,10 @@ const Hero = () => {
         2xl:px-0
         mb-4 md:mb-48
       ">
-        <div className="max-w-2xl 
- 
-          3xl:mb-80
+        <div className="max-w-2xl
+          md:bg-red-500 
+          
+          3xl:mb-100
           px-4 
           xl:px-0
         ">
