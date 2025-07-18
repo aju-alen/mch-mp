@@ -6,15 +6,13 @@ const Hero = () => {
       <div className="container relative z-10 
         md:absolute 
         md:bottom-30 
-        md:right-16
+        md:right-26
         px-4 
         xl:px-4 
         2xl:px-0
         mb-4 md:mb-48
       ">
         <div className="max-w-2xl
-          md:bg-red-500 
-          
           3xl:mb-100
           px-4 
           xl:px-0
