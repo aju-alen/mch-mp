@@ -83,12 +83,8 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         phoneNumber: formattedPhoneNumber
       };
   
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
-      if(response.data.pdf){
-        window.open('https://fpfplatform.funyula.com/', '_blank');
-      }else{
-        alert(response.data.message);
-      }
+      // const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
+     
     } 
     catch (error: any) {
       console.error('Error submitting form:', error);
@@ -133,19 +129,16 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
       
       setSuccessMessage('Verification successful! Redirecting...');
       
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
-   
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, verificationData);
 
       if (response.status === 200) {
-
         if(response.data.pdf){
           window.open('https://fpfplatform.funyula.com/', '_blank');
         }else{
           alert(response.data.message);
         }
-        // Wait a moment to show the success message
 
-          
+         
           
           // Reset all form fields after successful verification
           setFullName('');
