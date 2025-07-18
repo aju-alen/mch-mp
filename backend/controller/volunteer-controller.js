@@ -37,7 +37,8 @@ export const volunteerGetPdf = async (req, res, next) => {
             }
         });
         if (checkVolunteer) {
-            return res.redirect('https://fpfplatform.funyula.com');
+
+            return res.status(400).json({ message: 'You have already verified.',pdf:true });
         }
         // Create a new volunteer
         const volunteer = await prisma.user.create({
@@ -52,10 +53,10 @@ export const volunteerGetPdf = async (req, res, next) => {
         });
 
         // Redirect to the platform
-      
+        return res.status(200).json({ message: 'You have already verified.',pdf:true });
 
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ message: 'Internal server error',pdf:false });
     }
 };
