@@ -342,5 +342,11 @@ export const videos: Video[] = [
       description: 'Description of what he is doing or what he promises here',
       imageUrl: 'https://d177n02wywg7h2.cloudfront.net/funyula-images/20250506_144509000_iOS.jpg'
     },
+    {
+      id: '57',
+      title: 'Title Here',
+      description: 'Description of what he is doing or what he promises here',
+      imageUrl: 'https://d177n02wywg7h2.cloudfront.net/funyula-images/89_1.47.1.jpg'
+    },
     
   ];

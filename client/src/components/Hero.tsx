@@ -14,7 +14,6 @@ const Hero = () => {
       ">
         <div className="max-w-2xl 
  
-          2xl:mx-14 
           3xl:mb-80
           px-4 
           xl:px-0
