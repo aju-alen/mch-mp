@@ -85,7 +85,6 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
   
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
       if(response.data.pdf){
-        alert(response.data.message);
         window.open('https://fpfplatform.funyula.com/', '_blank');
       }else{
         alert(response.data.message);
