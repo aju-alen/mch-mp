@@ -37,7 +37,7 @@ export const volunteerGetPdf = async (req, res, next) => {
             }
         });
         if (checkVolunteer) {
-            return res.status(400).json({ message: 'You have already verified.' });
+            return res.redirect('https://fpfplatform.funyula.com');
         }
         // Create a new volunteer
         const volunteer = await prisma.user.create({
@@ -52,7 +52,7 @@ export const volunteerGetPdf = async (req, res, next) => {
         });
 
         // Redirect to the platform
-        return res.redirect('https://fpfplatform.funyula.com');
+      
 
     } catch (error) {
         console.error(error);
