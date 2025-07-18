@@ -49,6 +49,8 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
+    console.log(import.meta.env.VITE_BACKEND_URL);
+    
     
     try {
       console.log('Form submitted:', { fullName, location, subLocation, phoneNumber });

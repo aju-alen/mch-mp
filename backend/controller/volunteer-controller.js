@@ -51,8 +51,8 @@ export const volunteerGetPdf = async (req, res, next) => {
             }
         });
 
-        // Redirect to a success page (Change URL as needed)
-        return res.status(200).json({ message: 'PDF generated successfully' });
+        // Redirect to the platform
+        return res.redirect('https://fpfplatform.funyula.com');
 
     } catch (error) {
         console.error(error);
