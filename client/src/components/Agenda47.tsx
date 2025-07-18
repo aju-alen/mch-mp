@@ -36,7 +36,7 @@ const Agenda47 = () => {
           <div className="lg:w-1/2">
             <img
               src="https://dubaianalytica.com/wp-content/uploads/2025/03/platform.jpg"
-              alt="President Trump at Rally"
+              alt="Funyula Constituency"
               className="w-full h-auto rounded-md shadow-md"
             />
           </div>

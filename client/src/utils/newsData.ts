@@ -26,7 +26,7 @@
 
       <p style=" font-size:1.25rem;">During the candid engagement, traders highlighted the pressing need for reliable electricity and water connections within the market. Many cited challenges in food preservation, security, and hygiene due to the lack of these essential services.</p>
 
-      <p style=" font-size:1.25rem;">THon. Mugenya assured the women that their concerns would be a top priority in his development agenda. “For trade to flourish in Funyula, we must create an enabling environment. Reliable electricity will not only improve security but also open opportunities for modern business practices. Clean water is equally critical for health and sanitation, which our women traders require,” he said.</p>
+      <p style=" font-size:1.25rem;">Hon. Mugenya assured the women that their concerns would be a top priority in his development agenda. “For trade to flourish in Funyula, we must create an enabling environment. Reliable electricity will not only improve security but also open opportunities for modern business practices. Clean water is equally critical for health and sanitation, which our women traders require,” he said.</p>
 
       <p style=" font-size:1.25rem;">The aspirant emphasised that improved infrastructure would spur economic growth, empower women traders, and enhance livelihoods across the constituency. “Investing in market utilities is an investment in our people, and the current government sees the need for this, with over 400+ modern market projects on-going,” Mugenya added.</p>
 

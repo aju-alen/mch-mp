@@ -11,8 +11,8 @@ const VideoSection = () => {
   return (
 
     <div className="">
-<div className="relative h-screen flex items-center justify-center bg-[url('https://dubaianalytica.com/wp-content/uploads/2025/03/97_1.3.1.jpg')] bg-cover bg-center bg-no-repeat">
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+<div className="relative h-screen flex items-center justify-center bg-[url('https://d177n02wywg7h2.cloudfront.net/funyula-images/20250420_081646000_iOS.jpg')]  bg-cover bg-center bg-no-repeat">
+        <div className="absolute bg-black/60 inset-0 flex flex-col justify-center items-center text-white z-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center px-4 mb-2 sm:mb-4">Gallery</h1>
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center px-4 mb-2 sm:mb-4">On The Campaign Trail</h1>
         </div>

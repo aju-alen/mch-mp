@@ -35,7 +35,7 @@ const Header = () => {
               <Link to="/" onClick={closeMobileMenu}>
                 <img
                   src="https://dubaianalytica.com/wp-content/uploads/2025/03/logo.png"
-                  alt="Trump Logo"
+                  alt="Funyula Logo"
                   className="h-10 md:h-24"
                 />
               </Link>
