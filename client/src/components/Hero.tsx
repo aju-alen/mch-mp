@@ -6,7 +6,7 @@ const Hero = () => {
       <div className="container relative z-10 
         md:absolute 
         md:bottom-30 
-        md:right-26
+        md:right-20
         px-4 
         xl:px-4 
         2xl:px-0
