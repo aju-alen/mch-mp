@@ -42,7 +42,7 @@ const SingleNews: React.FC = () => {
             {newsItem ? newsItem.title : 'Loading...'}
         </h1>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-          <p className="text-trump-gray font-medium">{newsItem ? newsItem.date : 'Loading...'}</p>
+          {/* <p className="text-trump-gray font-medium">{newsItem ? newsItem.date : 'Loading...'}</p> */}
           <div className="flex space-x-3">
             <a
               href="#"
