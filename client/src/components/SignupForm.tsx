@@ -49,7 +49,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
-    console.log(import.meta.env.VITE_BACKEND_URL);
+    console.log(import.meta.env.VITE_BACKEND_URL)
     
     
     try {
@@ -83,7 +83,13 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         phoneNumber: formattedPhoneNumber
       };
   
-      // await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
+      if(response.data.pdf){
+        alert(response.data.message);
+        window.open('https://fpfplatform.funyula.com/', '_blank');
+      }else{
+        alert(response.data.message);
+      }
     } 
     catch (error: any) {
       console.error('Error submitting form:', error);
