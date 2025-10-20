@@ -3,7 +3,7 @@ import axios from 'axios';
 import { setupRecaptcha, sendVerificationCode, verifyCode } from '../utils/firebase';
 
 interface SignupFormProps {
-  variant?: 'default' | 'footer';
+  variant?: 'default' | 'footer' | 'modal';
 }
 
 const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
@@ -312,6 +312,113 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
             </form>
           </div>
         )}
+      </div>
+    );
+  }
+
+  if (variant === 'modal') {
+    return (
+      <div className="flex flex-col lg:flex-row min-h-[600px]">
+        {/* Left side - Form */}
+        <div className="flex-1 bg-white">
+          <div className="bg-trump-light-accent py-4 md:py-6">
+            <div className="container mx-auto px-4">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white text-center mb-2">
+                DOWNLOAD THE FUNYULA 2027 
+              </h2>
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center mb-2">
+               AND BEYOND MANIFESTO
+              </h2>
+            </div>
+          </div>
+
+          <div className="container mx-auto p-4 md:p-6 lg:p-8">
+            {!verifyPhoneNumber ? (
+              <form
+                onSubmit={handleSubmit}
+                className="max-w-xl mx-auto flex flex-col gap-4"
+              >
+                <input
+                  type="text"
+                  placeholder="Enter Your Full Name"
+                  className="w-full px-4 py-3 text-trump-light-navy bg-gray-50 focus:outline-none border border-gray-200 rounded-lg focus:border-trump-light-accent focus:ring-2 focus:ring-trump-light-accent/20 transition-all"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Location"
+                  className="w-full px-4 py-3 text-trump-light-navy bg-gray-50 focus:outline-none border border-gray-200 rounded-lg focus:border-trump-light-accent focus:ring-2 focus:ring-trump-light-accent/20 transition-all"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Sub Location"
+                  className="w-full px-4 py-3 text-trump-light-navy bg-gray-50 focus:outline-none border border-gray-200 rounded-lg focus:border-trump-light-accent focus:ring-2 focus:ring-trump-light-accent/20 transition-all"
+                  value={subLocation}
+                  onChange={(e) => setSubLocation(e.target.value)}
+                  required
+                />
+                <div className="relative w-full">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500">
+                    +254
+                  </div>
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    className="w-full pl-14 pr-4 py-3 text-trump-light-navy bg-gray-50 focus:outline-none border border-gray-200 rounded-lg focus:border-trump-light-accent focus:ring-2 focus:ring-trump-light-accent/20 transition-all"
+                    value={phoneNumber}
+                    onChange={(e) => {
+                      // Only allow digits
+                      const value = e.target.value.replace(/\D/g, '');
+                      setPhoneNumber(value);
+                    }}
+                    required
+                  />
+                </div>
+                <div id="recaptcha-container" ref={recaptchaContainerRef} className="flex justify-center my-2"></div>
+                {error && <div className="text-red-500 text-sm">{error}</div>}
+                {successMessage && (
+                  <div className="text-green-600 bg-green-50 p-3 rounded-lg text-center font-medium">
+                    {successMessage}
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  className="w-full bg-trump-light-accent text-white py-3.5 px-6 rounded-lg transition-all hover:bg-trump-light-accent/90 hover:shadow-lg active:transform active:scale-[0.98] flex items-center justify-center gap-4 font-semibold text-base sm:text-lg"
+                  aria-label="Download your copy"
+                  disabled={loading}
+                >
+                  {loading ? 'SENDING...' : 'DOWNLOAD YOUR COPY'}
+                </button>
+              </form>
+            ) : (
+              <div className="max-w-xl mx-auto">
+                {renderVerificationForm()}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right side - Image */}
+        <div className="flex-1 bg-gradient-to-br from-trump-light-accent/10 to-trump-light-accent/20 flex items-center justify-center p-8">
+          <div className="text-center">
+            <img 
+              src="https://d177n02wywg7h2.cloudfront.net/funyula-images/20250420_081646000_iOS.jpg" 
+              alt="Hon. Michael Mugenya with community members" 
+              className="w-full max-w-md mx-auto rounded-lg shadow-lg mb-6"
+            />
+            <h3 className="text-2xl font-bold text-trump-light-navy mb-4">
+              Join the Movement
+            </h3>
+            <p className="text-trump-light-navy/80 text-lg leading-relaxed">
+              Be part of the transformation of Funyula. Download the comprehensive manifesto and join thousands of supporters working towards a better future.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
