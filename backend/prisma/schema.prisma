@@ -36,7 +36,7 @@ model UserVolunteer {
   phone               String
   location            String
   subLocation         String
-  message             String
+  message             String  @default("") @db.VarChar(3000)
   privacyPolicy       Boolean
 
   createdAt           DateTime @default(now())
