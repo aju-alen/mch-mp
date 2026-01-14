@@ -43,7 +43,7 @@ export const newsItems = [
   {
     id: 3,
     // date: 'June 13, 2025',
-    title: 'Hon. Michael Mugenya Erects Modern Boda Boda Shades to Improve Riders' Welfare',
+    title: 'Hon. Michael Mugenya Erects Modern Boda Boda Shades to Improve Riders\' Welfare',
     link: '/news/fpfp3',
     content: ` 
       <div>
