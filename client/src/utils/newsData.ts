@@ -79,7 +79,8 @@
         <img src="https://d177n02wywg7h2.cloudfront.net/funyula-images/michael_meets_SEO.jpeg" alt="Strategic Dialogue at Bomas of Kenya Signals New Chapter for Funyula Leadership" style="width:100%; height:500px; object-fit:cover; margin-bottom:2rem;" />
 
 
-      <p style=" font-size:1.25rem;"><b>Nairobi, Kenya | January 13, 2026:</b> A high-level strategic brainstorming, mentorship, and advisory meeting held yesterday at the Bomas of Kenya has sparked fresh optimism for the future of Funyula Constituency and the wider Samia community. The meeting brought together the Chief Executive Officer of the Bomas of Kenya, Mr. Jimmy Okidiangi, and Hon. Michael Mugenya, the incoming and aspiring Member of Parliament for Funyula Constituency.
+      <p style=" font-size:1.25rem;"><b>Nairobi, Kenya | January 13, 2026:</b></p>
+      <p style=" font-size:1.25rem;">A high-level strategic brainstorming, mentorship, and advisory meeting held yesterday at the Bomas of Kenya has sparked fresh optimism for the future of Funyula Constituency and the wider Samia community. The meeting brought together the Chief Executive Officer of the Bomas of Kenya, Mr. Jimmy Okidiangi, and Hon. Michael Mugenya, the incoming and aspiring Member of Parliament for Funyula Constituency.
 </p>
 
       <p style=" font-size:1.25rem;">Captured against the backdrop of national and cultural flags at the iconic Bomas of Kenya, the engagement symbolized a convergence of culture, leadership, and forward-thinking governance. Mr. Okidiangi, as CEO of one of Kenya&apos;s most important cultural and conferencing institutions, holds a unique vantage point on national development, public policy engagement, cultural preservation, and stakeholder coordination. His experience in managing a national institution that bridges culture, tourism, and governance made his counsel particularly valuable.</p>
