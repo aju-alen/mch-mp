@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { newsItems } from '../utils/newsData';
 import { useParams } from 'react-router-dom';
 import SignupForm from '../components/SignupForm';
+import { extractImageFromContent, extractDescriptionFromContent } from '../utils/metaUtils';
 
 function HtmlRenderer({ content, onManifestoClick }: { content: string, onManifestoClick: () => void }) {
   // Add the global function to window object
@@ -34,9 +36,29 @@ const SingleNews: React.FC = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
+    // Extract meta data for dynamic meta tags
+    const ogImage = newsItem ? (extractImageFromContent(newsItem.content) || 'https://i.postimg.cc/cL5MWGTh/logo.png') : 'https://i.postimg.cc/cL5MWGTh/logo.png';
+    const description = newsItem ? extractDescriptionFromContent(newsItem.content) : 'Certified Website of Michael H. Mugenya';
+    const pageUrl = newsItem ? `https://funyula.com${newsItem.link}` : 'https://funyula.com';
+    const pageTitle = newsItem ? `${newsItem.title} | Michael H. Mugenya 2027` : 'Michael H. Mugenya 2027';
     
     return (
         <>
+            <Helmet>
+                <title>{pageTitle}</title>
+                <meta name="description" content={description} />
+                <meta property="og:title" content={newsItem ? newsItem.title : 'Michael H. Mugenya 2027'} />
+                <meta property="og:description" content={description} />
+                <meta property="og:url" content={pageUrl} />
+                <meta property="og:image" content={ogImage} />
+                <meta property="og:type" content="article" />
+                <meta property="og:site_name" content="Michael H. Mugenya 2027" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={newsItem ? newsItem.title : 'Michael H. Mugenya 2027'} />
+                <meta name="twitter:description" content={description} />
+                <meta name="twitter:image" content={ogImage} />
+            </Helmet>
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Breadcrumb */}
                 <div className="mb-6">
