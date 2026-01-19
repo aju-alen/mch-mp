@@ -11,7 +11,18 @@ export const getMetaTags = (req, res, next) => {
     }
 
     // Extract meta data
-    const ogImage = extractImageFromContent(newsItem.content) || 'https://i.postimg.cc/cL5MWGTh/logo.png';
+    let ogImage = extractImageFromContent(newsItem.content);
+    
+    // Ensure we always have a valid image URL
+    if (!ogImage || !ogImage.startsWith('http')) {
+      ogImage = 'https://i.postimg.cc/cL5MWGTh/logo.png';
+    } else {
+      // Clean up image URL - remove any fragments but keep query parameters if they exist
+      ogImage = ogImage.split('#')[0];
+      // Ensure URL is properly formatted
+      ogImage = ogImage.trim();
+    }
+    
     const description = extractDescriptionFromContent(newsItem.content);
     const pageUrl = `https://funyula.com${newsItem.link}`;
     const pageTitle = `${newsItem.title} | Michael H. Mugenya 2027`;
@@ -36,12 +47,16 @@ export const getMetaTags = (req, res, next) => {
   <meta property="og:description" content="${escapedDescription}" />
   <meta property="og:url" content="${escapedPageUrl}" />
   <meta property="og:image" content="${escapedOgImage}" />
+  <meta property="og:image:secure_url" content="${escapedOgImage}" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:alt" content="${escapedTitle}" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Michael H. Mugenya 2027" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapedTitle}" />
   <meta name="twitter:description" content="${escapedDescription}" />
   <meta name="twitter:image" content="${escapedOgImage}" />
+  <meta name="twitter:image:alt" content="${escapedTitle}" />
   <link rel="icon" href="https://i.postimg.cc/cL5MWGTh/logo.png" type="image/png" />
   <script>
     // Redirect to the frontend React app

@@ -8,6 +8,7 @@ import dajariaRouter from './route/dajaria-router.js';
 import metaRouter from './route/meta-Route.js';
 import { corsOptions } from './utils/corsFe.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import chalk from 'chalk';
 dotenv.config();
 const app = express();
 
@@ -26,5 +27,5 @@ app.use('/funyula', metaRouter);
 app.use(errorHandler);
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-  console.log(`Backend running at port ${PORT}`);
+  console.log(chalk.blue.bgRed(`Backend running at port ${PORT}`));
 })
