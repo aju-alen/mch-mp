@@ -3,15 +3,42 @@ import axios from "axios";
 import moment from "moment";
 const prisma = new PrismaClient();
 
+// Helper function to normalize phone number (remove + prefix, ensure string format)
+function normalizePhoneNumber(phoneNumber) {
+  if (!phoneNumber) return phoneNumber;
+  return String(phoneNumber).replace(/^\+/, '');
+}
+
+// Environment configuration
+const isProduction = process.env.NODE_ENV === 'production' || process.env.MPESA_ENV === 'production';
+const baseUrl = isProduction 
+  ? "https://api.safaricom.co.ke" 
+  : "https://sandbox.safaricom.co.ke";
+
+// Sandbox credentials (for testing)
+const SANDBOX_CONFIG = {
+  consumer_key: process.env.MPESA_CONSUMER_KEY || "uJQCrh8m5ICcvWiyAJDM41QAf7YEkgMye3I3d0u9UbIPmgbq",
+  consumer_secret: process.env.MPESA_CONSUMER_SECRET || "YKvXNW2Rs5gP8vDRxEDGJMM4NIjO3movvVMfHzS9JEJhRct27dIkbkkdyZLF7oBq",
+  businessShortCode: process.env.MPESA_SHORTCODE || "174379", // Sandbox test Till number
+  passKey: process.env.MPESA_PASSKEY || "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", // Sandbox passkey
+};
+
+// Production credentials (set these in .env file)
+const PRODUCTION_CONFIG = {
+  consumer_key: process.env.MPESA_PRODUCTION_CONSUMER_KEY || "",
+  consumer_secret: process.env.MPESA_PRODUCTION_CONSUMER_SECRET || "",
+  businessShortCode: process.env.MPESA_PRODUCTION_SHORTCODE || "4006467", // Your PayBill number
+  passKey: process.env.MPESA_PRODUCTION_PASSKEY || "", // Get from Daraja portal
+};
+
+const config = isProduction ? PRODUCTION_CONFIG : SANDBOX_CONFIG;
+
 async function getAccessToken() {
-    const consumer_key = "uJQCrh8m5ICcvWiyAJDM41QAf7YEkgMye3I3d0u9UbIPmgbq"; // REPLACE IT WITH YOUR CONSUMER KEY
-    const consumer_secret = "YKvXNW2Rs5gP8vDRxEDGJMM4NIjO3movvVMfHzS9JEJhRct27dIkbkkdyZLF7oBq"; // REPLACE IT WITH YOUR CONSUMER SECRET
-    const url =
-      "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
+    const url = `${baseUrl}/oauth/v1/generate?grant_type=client_credentials`;
   
     const auth =
       "Basic " +
-      new Buffer.from(consumer_key + ":" + consumer_secret).toString("base64");
+      new Buffer.from(config.consumer_key + ":" + config.consumer_secret).toString("base64");
   
     try {
       const response = await axios.get(url, {
@@ -28,35 +55,56 @@ async function getAccessToken() {
 
 export const stkpush = async(req,res)=>{
     const {accountNumber, phoneNumber, amount} = req.body;
+    
+    // Validate required fields
+    if (!phoneNumber || !amount) {
+      return res.status(400).json({
+        msg: "Missing required fields: phoneNumber and amount are required",
+        status: false,
+      });
+    }
+
+    // Validate production credentials if in production mode
+    if (isProduction && (!config.consumer_key || !config.consumer_secret || !config.passKey)) {
+      return res.status(500).json({
+        msg: "Production credentials not configured. Please set MPESA_PRODUCTION_CONSUMER_KEY, MPESA_PRODUCTION_CONSUMER_SECRET, and MPESA_PRODUCTION_PASSKEY in .env file",
+        status: false,
+      });
+    }
+
+    const businessShortCode = config.businessShortCode;
+    const passKey = config.passKey;
+    
     getAccessToken()
     .then((accessToken) => {
-      const url =
-        "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
+      const url = `${baseUrl}/mpesa/stkpush/v1/processrequest`;
       const auth = "Bearer " + accessToken;
       const timestamp = moment().format("YYYYMMDDHHmmss");
       const password = new Buffer.from(
-        "174379" +
-        "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919" +
+        businessShortCode +
+        passKey +
         timestamp
       ).toString("base64");
 
       console.log(password);
       
 
+      const normalizedPhone = normalizePhoneNumber(phoneNumber);
+      
       axios
         .post(
           url,
           {
-            BusinessShortCode: "174379",
+            BusinessShortCode: businessShortCode,
             Password: password,
             Timestamp: timestamp,
             TransactionType: "CustomerPayBillOnline",
             Amount: amount,
-            PartyA: Number(phoneNumber),
-            PartyB: "174379",
-            PhoneNumber: Number(phoneNumber),
+            PartyA: normalizedPhone,
+            PartyB: businessShortCode,
+            PhoneNumber: normalizedPhone,
             CallBackURL: "https://249e-105-60-226-239.ngrok-free.app/api/callback",
-            AccountReference: Number(accountNumber),
+            AccountReference: accountNumber || "DEFAULT_REF",
             TransactionDesc: "Mpesa Daraja API stk push test",
           },
           {
@@ -77,13 +125,22 @@ export const stkpush = async(req,res)=>{
         })
         .catch((error) => {
           console.log(error,'final');
-          //res.status(500).send("❌ Request failed");
-          console.log(error);
-          res.status(500).json({
-            msg: "Request failed",
+          const errorMessage = error.response?.data?.errorMessage || error.response?.data?.error_description || error.message || "Request failed";
+          console.log('STK Push Error:', errorMessage);
+          res.status(error.response?.status || 500).json({
+            msg: errorMessage,
             status: false,
+            error: error.response?.data || error.message,
           });
         });
     })
-    .catch(console.log);
+    .catch((error) => {
+      console.log('Access Token Error:', error);
+      const errorMessage = error.response?.data?.error_description || error.message || "Failed to get access token";
+      res.status(error.response?.status || 500).json({
+        msg: errorMessage,
+        status: false,
+        error: error.response?.data || error.message,
+      });
+    });
 }
