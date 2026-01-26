@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -54,26 +54,9 @@ const Header = () => {
 
               {/* Action Buttons */}
               <div className="hidden md:flex items-center">
-                <a
-                  href=""
-                  className="btn-primary 
-                w-full 
-                sm:w-auto 
-                text-center 
-                max-w-[300px] 
-                mx-auto 
-                xl:mx-0
-                py-3
-                px-6
-                uppercase
-                tracking-wider
-                transition-all
-                duration-200"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+               <NavLink to="/contribute" className="btn-primary">
                 SUPPORT THE CAUSE
-                </a>
+               </NavLink>
                 {/* <a
                   href="https://secure.winred.com/trump-national-committee-jfc/storefront/"
                   className="btn-shop"
@@ -115,15 +98,7 @@ const Header = () => {
               <Link to="/gallery" className="nav-link" onClick={closeMobileMenu}>GALLERY</Link>
               <Link to="/get-involved" className="nav-link" onClick={closeMobileMenu}>GET INVOLVED</Link>
              
-              <a
-                href="https://secure.winred.com/trump-national-committee-jfc/lp-website-contribute-button-victory"
-                className="text-trump-light-accent font-medium"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={closeMobileMenu}
-              >
-                SUPPORT THE CAUSE
-              </a>
+              <NavLink to="/contribute" className="nav-link" onClick={closeMobileMenu}>SUPPORT THE CAUSE</NavLink>
             </nav>
           )}
         </div>
