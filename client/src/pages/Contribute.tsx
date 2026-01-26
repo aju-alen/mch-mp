@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {VITE_BACKEND_URL} from '../utils/ipUrl'
 
@@ -9,6 +9,11 @@ const Contribute = () => {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState(null); // 'pending', 'success', 'failed'
+  const [statusMessage, setStatusMessage] = useState('');
+  const checkoutRequestIDRef = useRef(null);
+  const pollingIntervalRef = useRef(null);
+  const pollingTimeoutRef = useRef(null);
 
   // Function to format phone number from 0724731006 to 254724731006
   const formatPhoneNumber = (phoneNumber) => {
@@ -54,10 +59,76 @@ const Contribute = () => {
     }
   };
 
+  // Poll for payment status
+  const checkPaymentStatus = async (checkoutRequestID) => {
+    try {
+      const response = await axios.get(`${VITE_BACKEND_URL}/api/dajaria/status/${checkoutRequestID}`);
+      
+      if (response.data.status === 'success') {
+        setPaymentStatus('success');
+        setStatusMessage(response.data.msg || 'Payment successful!');
+        // Stop polling and timeout
+        if (pollingIntervalRef.current) {
+          clearInterval(pollingIntervalRef.current);
+          pollingIntervalRef.current = null;
+        }
+        if (pollingTimeoutRef.current) {
+          clearTimeout(pollingTimeoutRef.current);
+          pollingTimeoutRef.current = null;
+        }
+        // Reset form
+        setFormData({
+          phoneNumber: '',
+          amount: ''
+        });
+      } else if (response.data.status === 'failed') {
+        setPaymentStatus('failed');
+        setStatusMessage(response.data.msg || 'Payment failed');
+        // Stop polling and timeout
+        if (pollingIntervalRef.current) {
+          clearInterval(pollingIntervalRef.current);
+          pollingIntervalRef.current = null;
+        }
+        if (pollingTimeoutRef.current) {
+          clearTimeout(pollingTimeoutRef.current);
+          pollingTimeoutRef.current = null;
+        }
+      }
+      // If status is 'pending', continue polling
+    } catch (error) {
+      console.error('Error checking payment status:', error);
+      // Continue polling even on error
+    }
+  };
+
+  // Cleanup polling on unmount
+  useEffect(() => {
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+      }
+      if (pollingTimeoutRef.current) {
+        clearTimeout(pollingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
+    setPaymentStatus(null);
+    setStatusMessage('');
+    
+    // Clear any existing polling
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+      pollingIntervalRef.current = null;
+    }
+    if (pollingTimeoutRef.current) {
+      clearTimeout(pollingTimeoutRef.current);
+      pollingTimeoutRef.current = null;
+    }
     
     // Ensure phone number is properly formatted before submission
     const formattedPhone = formatPhoneNumber(formData.phoneNumber);
@@ -77,22 +148,46 @@ const Contribute = () => {
       
       const response = await axios.post(`${VITE_BACKEND_URL}/api/dajaria/stkpush`, payload);
       
-      if (response.data.status) {
-        setMessage(response.data.msg || 'Contribution submitted successfully! Please check your phone to complete the payment.');
+      if (response.data.status && response.data.checkoutRequestID) {
+        setMessage('Payment request sent! Please check your phone and enter your M-Pesa PIN.');
+        setPaymentStatus('pending');
+        setStatusMessage('Waiting for payment confirmation...');
+        
+        // Store checkoutRequestID for polling
+        checkoutRequestIDRef.current = response.data.checkoutRequestID;
+        
+        // Start polling for payment status (check every 3 seconds)
+        pollingIntervalRef.current = setInterval(() => {
+          checkPaymentStatus(checkoutRequestIDRef.current);
+        }, 3000);
+        
+        // Stop polling after 5 minutes (300 seconds)
+        pollingTimeoutRef.current = setTimeout(() => {
+          if (pollingIntervalRef.current) {
+            clearInterval(pollingIntervalRef.current);
+            pollingIntervalRef.current = null;
+          }
+          if (paymentStatus === 'pending') {
+            setPaymentStatus('failed');
+            setStatusMessage('Payment timeout. Please try again or contact support.');
+          }
+        }, 300000); // 5 minutes
+        
+        // Also check immediately
+        setTimeout(() => {
+          checkPaymentStatus(checkoutRequestIDRef.current);
+        }, 2000);
+        
       } else {
         setMessage(`Error: ${response.data.msg || 'Failed to process contribution'}`);
-      }
-      
-      // Reset form after successful submission
-      if (response.data.status) {
-        setFormData({
-          phoneNumber: '',
-          amount: ''
-        });
+        setPaymentStatus('failed');
+        setStatusMessage(response.data.msg || 'Failed to initiate payment');
       }
     } catch (error) {
       const errorMsg = error.response?.data?.msg || error.response?.data?.message || error.message || 'An error occurred. Please try again.';
       setMessage(`Error: ${errorMsg}`);
+      setPaymentStatus('failed');
+      setStatusMessage(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -103,8 +198,38 @@ const Contribute = () => {
       <h2 className="text-xl font-bold mb-4">Make a Contribution</h2>
       
       {message && (
-        <div className={`p-3 mb-4 rounded ${message.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+        <div className={`p-3 mb-4 rounded ${message.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}`}>
           {message}
+        </div>
+      )}
+      
+      {paymentStatus && (
+        <div className={`p-3 mb-4 rounded ${
+          paymentStatus === 'success' 
+            ? 'bg-green-100 text-green-700 border border-green-300' 
+            : paymentStatus === 'failed'
+            ? 'bg-red-100 text-red-700 border border-red-300'
+            : 'bg-yellow-100 text-yellow-700 border border-yellow-300'
+        }`}>
+          <div className="flex items-center">
+            {paymentStatus === 'success' && (
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            )}
+            {paymentStatus === 'failed' && (
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+            )}
+            {paymentStatus === 'pending' && (
+              <svg className="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            )}
+            <span className="font-medium">{statusMessage}</span>
+          </div>
         </div>
       )}
       

@@ -14,18 +14,7 @@ const Header = () => {
 
   return (
     <>
-      {/* Text message banner */}
-      
-      {/* <div className="bg-trump-maingreen text-white text-center py-3 text-sm font-bold">
-        <a 
-          href="sms://88022;?&body=%20TRUMP" 
-          className="hover:underline"
-          onClick={closeMobileMenu}
-        >
-          TEXT MUGENYA TO 88022!
-        </a>
-        <a href="#main" className="sr-only">Skip to main content</a>
-      </div> */}
+     
 
       <header className="bg-white border-b-4 border-trump-maingreen sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-3">

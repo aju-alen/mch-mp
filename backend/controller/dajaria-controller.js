@@ -128,9 +128,15 @@ export const stkpush = async(req,res)=>{
           // res.send("😀 Request is successful done ✔✔. Please enter mpesa pin to complete the transaction");
           //SEND BACK A JSON RESPONSE TO THE CLIENT
           console.log(response.data);
+          
+          const checkoutRequestID = response.data?.CheckoutRequestID;
+          const merchantRequestID = response.data?.MerchantRequestID;
+          
           res.status(200).json({
             msg: "Request is successful done ✔✔. Please enter mpesa pin to complete the transaction",
             status: true,
+            checkoutRequestID: checkoutRequestID,
+            merchantRequestID: merchantRequestID,
           });
 
         })
@@ -305,6 +311,66 @@ export const stkpushCallback = async (req, res) => {
     return res.status(200).json({
       ResultCode: 0,
       ResultDesc: "Callback received"
+    });
+  }
+}
+
+// Check payment status by CheckoutRequestID
+export const checkPaymentStatus = async (req, res) => {
+  try {
+    const { checkoutRequestID } = req.params;
+
+    if (!checkoutRequestID) {
+      return res.status(400).json({
+        status: false,
+        msg: "CheckoutRequestID is required"
+      });
+    }
+
+    // Find payment in database
+    const payment = await prisma.payment.findFirst({
+      where: {
+        checkoutRequestID: checkoutRequestID
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    if (!payment) {
+      // Payment not yet processed (callback not received)
+      return res.status(200).json({
+        status: 'pending',
+        msg: "Payment is being processed. Please wait...",
+        payment: null
+      });
+    }
+
+    // Payment found - return status
+    return res.status(200).json({
+      status: payment.status, // 'success' or 'failed'
+      msg: payment.status === 'success' 
+        ? `Payment successful! Receipt: ${payment.mpesaReceiptNumber}` 
+        : `Payment failed: ${payment.resultDesc}`,
+      payment: {
+        id: payment.id,
+        amount: payment.amount,
+        phoneNumber: payment.phoneNumber,
+        status: payment.status,
+        mpesaReceiptNumber: payment.mpesaReceiptNumber,
+        resultDesc: payment.resultDesc,
+        errorMessage: payment.errorMessage,
+        transactionDate: payment.transactionDate,
+        createdAt: payment.createdAt
+      }
+    });
+
+  } catch (error) {
+    console.error('Error checking payment status:', error);
+    return res.status(500).json({
+      status: false,
+      msg: "Error checking payment status",
+      error: error.message
     });
   }
 }
