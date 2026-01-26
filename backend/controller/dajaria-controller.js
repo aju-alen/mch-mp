@@ -33,6 +33,13 @@ const PRODUCTION_CONFIG = {
 
 const config = isProduction ? PRODUCTION_CONFIG : SANDBOX_CONFIG;
 
+// Callback URL configuration
+const getCallbackUrl = () => {
+  const backendUrl = process.env.BACKEND_URL || process.env.SERVER_URL || 'http://localhost:3001';
+  console.log(backendUrl, 'backendUrl');
+  return `${backendUrl}/api/dajaria/callback`;
+};
+
 async function getAccessToken() {
   console.log(config, 'config');
   console.log(baseUrl, 'baseUrl');
@@ -107,7 +114,7 @@ export const stkpush = async(req,res)=>{
             PartyA: normalizedPhone,
             PartyB: businessShortCode,
             PhoneNumber: normalizedPhone,
-            CallBackURL: "https://249e-105-60-226-239.ngrok-free.app/api/callback",
+            CallBackURL: getCallbackUrl(),
             AccountReference: accountNumber || "DEFAULT_REF",
             TransactionDesc: "Mpesa Daraja API stk push test",
           },
@@ -147,4 +154,157 @@ export const stkpush = async(req,res)=>{
         error: error.response?.data || error.message,
       });
     });
+}
+
+// STK Push Callback Handler - Receives payment confirmation from Safaricom
+export const stkpushCallback = async (req, res) => {
+  try {
+    console.log('STK Push Callback Received:', JSON.stringify(req.body, null, 2));
+
+    // Safaricom sends the callback in this structure
+    const callbackData = req.body.Body?.stkCallback;
+
+    if (!callbackData) {
+      console.error('Invalid callback structure:', req.body);
+      return res.status(400).json({
+        ResultCode: 1,
+        ResultDesc: "Invalid callback structure"
+      });
+    }
+
+    const {
+      MerchantRequestID,
+      CheckoutRequestID,
+      ResultCode,
+      ResultDesc,
+      CallbackMetadata
+    } = callbackData;
+
+    // Helper function to find value by name in metadata array
+    const getMetadataValue = (name, metadataArray) => {
+      if (!metadataArray) return null;
+      const item = metadataArray.find(item => item.Name === name);
+      return item?.Value || null;
+    };
+
+    // ResultCode 0 = Success, any other number = Failure
+    if (ResultCode === 0) {
+      // Payment successful - extract transaction details
+      const metadata = CallbackMetadata?.Item || [];
+      
+      const amount = getMetadataValue('Amount', metadata);
+      const mpesaReceiptNumber = getMetadataValue('MpesaReceiptNumber', metadata);
+      const transactionDateValue = getMetadataValue('TransactionDate', metadata);
+      const phoneNumber = getMetadataValue('PhoneNumber', metadata);
+      const accountReference = getMetadataValue('AccountReference', metadata);
+
+      // Convert transaction date from YYYYMMDDHHmmss format to Date
+      let transactionDate = null;
+      if (transactionDateValue) {
+        const dateStr = String(transactionDateValue);
+        // Format: YYYYMMDDHHmmss -> Date object
+        const year = dateStr.substring(0, 4);
+        const month = dateStr.substring(4, 6);
+        const day = dateStr.substring(6, 8);
+        const hour = dateStr.substring(8, 10);
+        const minute = dateStr.substring(10, 12);
+        const second = dateStr.substring(12, 14);
+        transactionDate = new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
+      }
+
+      console.log('Payment Successful:', {
+        MerchantRequestID,
+        CheckoutRequestID,
+        Amount: amount,
+        ReceiptNumber: mpesaReceiptNumber,
+        TransactionDate: transactionDate,
+        PhoneNumber: phoneNumber,
+        AccountReference: accountReference
+      });
+
+      // Store successful payment in database
+      try {
+        await prisma.payment.create({
+          data: {
+            merchantRequestID: MerchantRequestID,
+            checkoutRequestID: CheckoutRequestID,
+            phoneNumber: String(phoneNumber || ''),
+            amount: amount ? parseFloat(amount) : 0,
+            mpesaReceiptNumber: mpesaReceiptNumber || null,
+            accountReference: accountReference || null,
+            transactionDate: transactionDate,
+            status: 'success',
+            resultCode: ResultCode,
+            resultDesc: ResultDesc,
+            errorMessage: null
+          }
+        });
+        console.log('Payment record created successfully');
+      } catch (dbError) {
+        console.error('Error storing payment in database:', dbError);
+        // Continue execution even if DB save fails
+      }
+
+      // Return success response to Safaricom
+      return res.status(200).json({
+        ResultCode: 0,
+        ResultDesc: "Callback processed successfully"
+      });
+
+    } else {
+      // Payment failed - extract available data
+      const metadata = CallbackMetadata?.Item || [];
+      const amount = getMetadataValue('Amount', metadata);
+      const phoneNumber = getMetadataValue('PhoneNumber', metadata);
+      const accountReference = getMetadataValue('AccountReference', metadata);
+
+      console.log('Payment Failed:', {
+        MerchantRequestID,
+        CheckoutRequestID,
+        ResultCode,
+        ResultDesc,
+        Amount: amount,
+        PhoneNumber: phoneNumber
+      });
+
+      // Store failed payment attempt in database
+      try {
+        await prisma.payment.create({
+          data: {
+            merchantRequestID: MerchantRequestID,
+            checkoutRequestID: CheckoutRequestID,
+            phoneNumber: String(phoneNumber || ''),
+            amount: amount ? parseFloat(amount) : 0,
+            mpesaReceiptNumber: null,
+            accountReference: accountReference || null,
+            transactionDate: null,
+            status: 'failed',
+            resultCode: ResultCode,
+            resultDesc: ResultDesc,
+            errorMessage: ResultDesc
+          }
+        });
+        console.log('Failed payment record created successfully');
+      } catch (dbError) {
+        console.error('Error storing failed payment in database:', dbError);
+        // Continue execution even if DB save fails
+      }
+
+      // Return success response to Safaricom (we acknowledge receipt)
+      return res.status(200).json({
+        ResultCode: 0,
+        ResultDesc: "Callback received and processed"
+      });
+    }
+
+  } catch (error) {
+    console.error('Error processing STK Push callback:', error);
+    
+    // Still return success to Safaricom to acknowledge receipt
+    // (You can retry processing later if needed)
+    return res.status(200).json({
+      ResultCode: 0,
+      ResultDesc: "Callback received"
+    });
+  }
 }

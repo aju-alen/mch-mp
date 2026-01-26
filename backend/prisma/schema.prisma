@@ -43,4 +43,27 @@ model UserVolunteer {
   updatedAt           DateTime @updatedAt
 }
 
+model Payment {
+  id                  String    @id @default(cuid())
+  merchantRequestID   String
+  checkoutRequestID   String
+  phoneNumber          String
+  amount               Decimal   @db.Decimal(10, 2)
+  mpesaReceiptNumber   String?
+  accountReference     String?
+  transactionDate      DateTime?
+  status               String    // 'success', 'failed', 'pending'
+  resultCode           Int
+  resultDesc           String
+  errorMessage         String?
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([phoneNumber])
+  @@index([status])
+  @@index([merchantRequestID])
+  @@index([checkoutRequestID])
+}
+
 
