@@ -41,7 +41,7 @@ const Hero = () => {
             justify-center 
             xl:justify-start
           ">
-            <NavLink to="/contribute" className="btn-primary">
+            <NavLink to="/contribute" className="btn-primary w-full sm:w-auto text-center max-w-[300px] mx-auto xl:mx-0">
               SUPPORT THE CAUSE
             </NavLink>
             <a
