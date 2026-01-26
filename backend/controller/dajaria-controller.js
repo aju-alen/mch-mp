@@ -17,10 +17,10 @@ const baseUrl = isProduction
 
 // Sandbox credentials (for testing)
 const SANDBOX_CONFIG = {
-  consumer_key: process.env.MPESA_CONSUMER_KEY || "ZnanLPZfweGWHGnSMfALy3nn0QfEZXbyt28yTZYhHsfmAPaJ",
-  consumer_secret: process.env.MPESA_CONSUMER_SECRET || "GpblXGEz4ZyqqAeP3NCfCGxa4NxBo537QgMDHbZKooXhLdXWOJTDpKxCaQS3wS9W",
-  businessShortCode: process.env.MPESA_SHORTCODE || "174379", // Sandbox test Till number
-  passKey: process.env.MPESA_PASSKEY || "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", // Sandbox passkey
+  consumer_key: process.env.MPESA_CONSUMER_KEY || "",
+  consumer_secret: process.env.MPESA_CONSUMER_SECRET || "",
+  businessShortCode: process.env.MPESA_SHORTCODE || "", // Sandbox test Till number
+  passKey: process.env.MPESA_PASSKEY || "", // Sandbox passkey
 };
 
 // Production credentials (set these in .env file)
@@ -34,6 +34,10 @@ const PRODUCTION_CONFIG = {
 const config = isProduction ? PRODUCTION_CONFIG : SANDBOX_CONFIG;
 
 async function getAccessToken() {
+  console.log(config, 'config');
+  console.log(baseUrl, 'baseUrl');
+  
+  
     const url = `${baseUrl}/oauth/v1/generate?grant_type=client_credentials`;
   
     const auth =
