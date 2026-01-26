@@ -97,6 +97,32 @@
 
       </div>`
     },
-   
+    {
+      id: 5,
+      // date: 'June 13, 2025',
+      title: 'Mugenya Consults Mulanya as 2027 Politics Shift Toward Development-Centered Leadership in Busia',
+      link: '/news/fpfp5',
+      content:` 
+      <div>
+
+        <img src="https://d177n02wywg7h2.cloudfront.net/funyula-images/WhatsApp+Image+2026-01-25+at+8.47.53+AM.jpeg" alt="Mugenya Consults Mulanya as 2027 Politics Shift Toward Development-Centered Leadership in Busia" style="width:100%; height:auto; margin-bottom:2rem;" />
+
+
+
+      <p style=" font-size:1.25rem;">As Kenya steadily inches toward the 2027 General Election, political actors across the country are recalibrating their strategies, with a growing emphasis on development-driven leadership over populist sloganeering. In Busia County, this shift was evident during a high-level consultative meeting between aspiring Funyula Member of Parliament, <b>Hon. Michael Mugenya</b>, and his mentor, seasoned legislator and Busia County Member of the National Assembly, <b>Hon. Geoffrey Mulanya</b>.</p>
+
+      <p style=" font-size:1.25rem;">The meeting, captured in a symbolic photo that reflects both mentorship and generational continuity in leadership, brought together experience and ambition at a critical moment in the county&apos;s political journey. Hon. Mulanya, widely credited with redefining politics in Busia through a results-oriented approach, has long stood out for prioritizing tangible development outcomes over partisan rhetoric: a model that has earned him enduring grassroots support.</p>
+
+      <p style=" font-size:1.25rem;">Discussions between the two leaders centered on leveraging elective office to accelerate constituency-level development. Key among the strategies explored was the use of parliamentary influence to unlock funding for transformative projects through partnerships with established institutions such as <b>Safaricom Foundation</b> and the <b>Center for Innovation and Development</b>. Such collaborations, they noted, remain critical in bridging development gaps, particularly in underserved rural communities.</p>
+
+      <p style=" font-size:1.25rem;">Hon. Mulanya also offered strategic counsel to Hon. Mugenya as he positions himself for the 2027 electoral contest. The advice emphasized people-centered leadership, consistent community engagement, and the importance of aligning political ambition with the everyday needs of constituents. For Mugenya, the guidance reinforces a campaign philosophy anchored in service delivery rather than short-term political theatrics.</p>
+
+      <p style=" font-size:1.25rem;">Beyond the election, the meeting explored avenues for future collaboration between the two leaders for the benefit of the wider <b>Samia and Nambale</b> regions. Proposed initiatives include <b>solarized water projects, SME empowerment programs</b, and <b>youth training and skills development</b>, all aimed at fostering sustainable economic growth and resilience at the grassroots.</p>
+
+      <p style=" font-size:1.25rem;">As the 2027 electioneering period gradually takes shape, such consultative engagements signal a maturing political culture in Busia: one where leadership is increasingly measured not by rhetoric, but by vision, partnerships, and measurable impact on people&apos;s lives.</p>
+
+
+      </div>`
+    },
    
   ];

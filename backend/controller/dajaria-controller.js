@@ -17,8 +17,8 @@ const baseUrl = isProduction
 
 // Sandbox credentials (for testing)
 const SANDBOX_CONFIG = {
-  consumer_key: process.env.MPESA_CONSUMER_KEY || "uJQCrh8m5ICcvWiyAJDM41QAf7YEkgMye3I3d0u9UbIPmgbq",
-  consumer_secret: process.env.MPESA_CONSUMER_SECRET || "YKvXNW2Rs5gP8vDRxEDGJMM4NIjO3movvVMfHzS9JEJhRct27dIkbkkdyZLF7oBq",
+  consumer_key: process.env.MPESA_CONSUMER_KEY || "ZnanLPZfweGWHGnSMfALy3nn0QfEZXbyt28yTZYhHsfmAPaJ",
+  consumer_secret: process.env.MPESA_CONSUMER_SECRET || "GpblXGEz4ZyqqAeP3NCfCGxa4NxBo537QgMDHbZKooXhLdXWOJTDpKxCaQS3wS9W",
   businessShortCode: process.env.MPESA_SHORTCODE || "174379", // Sandbox test Till number
   passKey: process.env.MPESA_PASSKEY || "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", // Sandbox passkey
 };
