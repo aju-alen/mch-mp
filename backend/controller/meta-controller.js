@@ -1,5 +1,8 @@
 import { newsItems } from '../utils/newsData.js';
 import { extractImageFromContent, extractDescriptionFromContent, escapeHtml } from '../utils/metaUtils.js';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const getMetaTags = (req, res, next) => {
   try {
@@ -75,5 +78,124 @@ export const getMetaTags = (req, res, next) => {
     res.send(html);
   } catch (error) {
     next(error);
+  }
+};
+
+export const getReports = async (req, res, next) => {
+  try {
+    // Get query parameters for filtering and pagination
+    const { 
+      status, 
+      phoneNumber, 
+      startDate, 
+      endDate,
+      page = 1,
+      limit = 50,
+      sortBy = 'createdAt',
+      sortOrder = 'desc'
+    } = req.query;
+
+    // Build where clause for filtering
+    const where = {};
+    
+    if (status) {
+      where.status = status;
+    }
+    
+    if (phoneNumber) {
+      where.phoneNumber = phoneNumber;
+    }
+    
+    if (startDate || endDate) {
+      where.createdAt = {};
+      if (startDate) {
+        where.createdAt.gte = new Date(startDate);
+      }
+      if (endDate) {
+        where.createdAt.lte = new Date(endDate);
+      }
+    }
+
+    // Calculate pagination
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    // Validate sort order
+    const orderBy = {};
+    const validSortFields = ['createdAt', 'updatedAt', 'transactionDate', 'amount', 'status'];
+    const sortField = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
+    orderBy[sortField] = sortOrder === 'asc' ? 'asc' : 'desc';
+
+    // Get total count for pagination
+    const totalCount = await prisma.payment.count({ where });
+
+    // Fetch payments with pagination and sorting
+    const payments = await prisma.payment.findMany({
+      where,
+      orderBy,
+      skip,
+      take: limitNum,
+    });
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(totalCount / limitNum);
+    const hasNextPage = pageNum < totalPages;
+    const hasPreviousPage = pageNum > 1;
+
+    // Calculate summary statistics
+    const summary = await prisma.payment.aggregate({
+      where,
+      _sum: {
+        amount: true,
+      },
+      _count: {
+        id: true,
+      },
+    });
+
+    // Get status breakdown
+    const statusBreakdown = await prisma.payment.groupBy({
+      by: ['status'],
+      where,
+      _count: {
+        status: true,
+      },
+      _sum: {
+        amount: true,
+      },
+    });
+
+    // Return response with payments and metadata
+    res.status(200).json({
+      success: true,
+      data: {
+        payments,
+        pagination: {
+          currentPage: pageNum,
+          totalPages,
+          totalCount,
+          limit: limitNum,
+          hasNextPage,
+          hasPreviousPage,
+        },
+        summary: {
+          totalAmount: summary._sum.amount || 0,
+          totalTransactions: summary._count.id || 0,
+          statusBreakdown: statusBreakdown.map(item => ({
+            status: item.status,
+            count: item._count.status,
+            totalAmount: item._sum.amount || 0,
+          })),
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching payment reports:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching payment reports',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
   }
 };
