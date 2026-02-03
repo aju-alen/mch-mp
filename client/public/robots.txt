@@ -1,0 +1,6 @@
+# https://funyula.com/robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://funyula.com/sitemap.xml
