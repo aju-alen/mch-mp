@@ -39,7 +39,7 @@ const SingleNews: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const shareUrl = `https://future.funyula.com/funyula/news/${id}`;
+    const shareUrl = `https://future.funyula.com/news/${id}`;
     const shareTitle = newsItem ? newsItem.title : 'News Article';
     const shareDescription = newsItem ? extractDescriptionFromContent(newsItem.content) : '';
 

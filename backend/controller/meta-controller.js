@@ -81,6 +81,65 @@ export const getMetaTags = (req, res, next) => {
   }
 };
 
+/**
+ * Serve HTML with OG meta tags for /contribute so WhatsApp/Google crawlers get a preview.
+ * Redirects users to the frontend contribute page.
+ */
+export const getContributeMetaTags = (req, res, next) => {
+  try {
+    const ogImage = 'https://i.postimg.cc/cL5MWGTh/logo.png';
+    const title = 'Make a Contribution';
+    const description = 'Support Michael H. Mugenya 2027 by making a secure contribution via M-Pesa. Quick and easy mobile payment process.';
+    const redirectUrl = 'https://funyula.com/contribute';
+    const pageTitle = `${title} | Michael H. Mugenya 2027`;
+    // Share URL is this backend URL (crawlers read it); og:url should be this URL
+    const shareUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+
+    const escapedTitle = escapeHtml(title);
+    const escapedDescription = escapeHtml(description);
+    const escapedPageTitle = escapeHtml(pageTitle);
+    const escapedShareUrl = escapeHtml(shareUrl);
+    const escapedRedirectUrl = escapeHtml(redirectUrl);
+    const escapedOgImage = escapeHtml(ogImage);
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escapedPageTitle}</title>
+  <meta name="description" content="${escapedDescription}" />
+  <meta property="og:title" content="${escapedTitle}" />
+  <meta property="og:description" content="${escapedDescription}" />
+  <meta property="og:url" content="${escapedShareUrl}" />
+  <meta property="og:image" content="${escapedOgImage}" />
+  <meta property="og:image:secure_url" content="${escapedOgImage}" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="${escapedTitle}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Michael H. Mugenya 2027" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escapedTitle}" />
+  <meta name="twitter:description" content="${escapedDescription}" />
+  <meta name="twitter:image" content="${escapedOgImage}" />
+  <meta name="twitter:image:alt" content="${escapedTitle}" />
+  <link rel="canonical" href="${escapedRedirectUrl}" />
+  <link rel="icon" href="https://i.postimg.cc/cL5MWGTh/logo.png" type="image/png" />
+  <script>window.location.href = "${escapedRedirectUrl}";</script>
+  <noscript><meta http-equiv="refresh" content="0; url=${escapedRedirectUrl}" /></noscript>
+</head>
+<body>
+  <p>Redirecting to <a href="${escapedRedirectUrl}">Contribute</a></p>
+</body>
+</html>`;
+
+    res.setHeader('Content-Type', 'text/html');
+    res.send(html);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getReports = async (req, res, next) => {
   try {
     // Get query parameters for filtering and pagination

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
-import { VITE_BACKEND_URL } from '../utils/ipUrl'
+import { VITE_BACKEND_URL, CONTRIBUTE_SHARE_URL } from '../utils/ipUrl'
 
 const Contribute = () => {
   const [formData, setFormData] = useState({
@@ -197,7 +197,6 @@ const Contribute = () => {
   const ogImage = 'https://i.postimg.cc/cL5MWGTh/logo.png';
   const title = 'Make a Contribution';
   const description = 'Support Michael H. Mugenya 2027 by making a secure contribution via M-Pesa. Quick and easy mobile payment process.';
-  const pageUrl = 'https://funyula.com/contribute';
   const pageTitle = `${title} | Michael H. Mugenya 2027`;
 
   return (
@@ -205,9 +204,10 @@ const Contribute = () => {
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={description} />
+        <link rel="canonical" href={CONTRIBUTE_SHARE_URL} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:url" content={pageUrl} />
+        <meta property="og:url" content={CONTRIBUTE_SHARE_URL} />
         <meta property="og:image" content={ogImage} />
         <meta property="og:image:secure_url" content={ogImage} />
         <meta property="og:image:type" content="image/png" />

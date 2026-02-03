@@ -21,7 +21,7 @@ app.use(express.json());
 app.use('/api/volunteer', volunteerRouter);
 app.use('/api/africastalking',africastalkingRouter);
 app.use('/api/dajaria',dajariaRouter);
-app.use('/funyula', metaRouter);
+app.use('/', metaRouter);
 
 
 app.use(errorHandler);
