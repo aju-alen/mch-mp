@@ -1,6 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { setupRecaptcha, sendVerificationCode, verifyCode } from '../utils/firebase';
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
+import { setupRecaptcha, sendVerificationCode, verifyCode } from '../utils/firebase'
+import { BACKEND_URL } from '../utils/ipUrl'
 
 interface SignupFormProps {
   variant?: 'default' | 'footer' | 'modal';
@@ -49,9 +52,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
-    console.log(import.meta.env.VITE_BACKEND_URL)
-    
-    
+
     try {
       console.log('Form submitted:', { fullName, location, subLocation, phoneNumber });
   
@@ -83,7 +84,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
         phoneNumber: formattedPhoneNumber
       };
   
-      // const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, formData);
+      // const response = await axios.post(`${BACKEND_URL}/api/volunteer/pdf`, formData);
      
     } 
     catch (error: any) {
@@ -129,7 +130,7 @@ const SignupForm = ({ variant = 'default' }: SignupFormProps) => {
       
       setSuccessMessage('Verification successful! Redirecting...');
       
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/pdf`, verificationData);
+      const response = await axios.post(`${BACKEND_URL}/api/volunteer/pdf`, verificationData);
 
       if (response.status === 200) {
         if(response.data.pdf){

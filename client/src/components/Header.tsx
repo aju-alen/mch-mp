@@ -1,62 +1,53 @@
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+    setMobileMenuOpen(!mobileMenuOpen)
+  }
 
   const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
+    setMobileMenuOpen(false)
+  }
+
+  const contributeClass = pathname === '/contribute' ? 'btn-primary' : 'nav-link text-sm'
 
   return (
     <>
-     
-
       <header className="bg-white border-b-4 border-trump-maingreen sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
-            {/* Logo */}
             <div className="flex-shrink-0">
-              <Link to="/" onClick={closeMobileMenu}>
+              <Link href="/" onClick={closeMobileMenu}>
                 <img
                   src="https://dubaianalytica.com/wp-content/uploads/2025/03/logo.png"
                   alt="Funyula Logo"
                   className="h-10 md:h-24"
                 />
               </Link>
-              
             </div>
 
             <div className="flex items-center">
-              {/* Desktop Navigation */}
               <nav className="hidden lg:flex items-center space-x-6 mr-4">
-                <Link to="/news" className="nav-link text-sm">NEWS</Link>
-                <Link to="/platform" className="nav-link text-sm">VISION</Link>
-                <Link to="/upcoming-projects" className="nav-link text-sm">UPCOMING PROJECTS</Link>
-                <Link to="/gallery" className="nav-link text-sm">GALLERY</Link>
-                <Link to="/get-involved" className="nav-link text-sm">GET INVOLVED </Link>
+                <Link href="/news" className="nav-link text-sm">NEWS</Link>
+                <Link href="/platform" className="nav-link text-sm">VISION</Link>
+                <Link href="/upcoming-projects" className="nav-link text-sm">UPCOMING PROJECTS</Link>
+                <Link href="/gallery" className="nav-link text-sm">GALLERY</Link>
+                <Link href="/get-involved" className="nav-link text-sm">GET INVOLVED </Link>
               </nav>
 
-              {/* Action Buttons */}
               <div className="hidden md:flex items-center">
-               <NavLink to="/contribute" className="btn-primary">
-                SUPPORT THE CAUSE
-               </NavLink>
-                {/* <a
-                  href="https://secure.winred.com/trump-national-committee-jfc/storefront/"
-                  className="btn-shop"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Shop
-                </a> */}
+                <Link href="/contribute" className={contributeClass}>
+                  SUPPORT THE CAUSE
+                </Link>
               </div>
 
-              {/* Mobile Menu Button */}
               <div className="lg:hidden">
                 <button
                   type="button"
@@ -78,22 +69,20 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Mobile Menu */}
           {mobileMenuOpen && (
             <nav className="lg:hidden mt-4 pb-4 border-t border-gray-200 pt-4 flex flex-col space-y-4">
-              <Link to="/news" className="nav-link" onClick={closeMobileMenu}>NEWS</Link>
-              <Link to="/platform" className="nav-link" onClick={closeMobileMenu}>VISION</Link>
-              <Link to="/upcoming-projects" className="nav-link" onClick={closeMobileMenu}>UPCOMING PROJECTS</Link>
-              <Link to="/gallery" className="nav-link" onClick={closeMobileMenu}>GALLERY</Link>
-              <Link to="/get-involved" className="nav-link" onClick={closeMobileMenu}>GET INVOLVED</Link>
-             
-              <NavLink to="/contribute" className="nav-link" onClick={closeMobileMenu}>SUPPORT THE CAUSE</NavLink>
+              <Link href="/news" className="nav-link" onClick={closeMobileMenu}>NEWS</Link>
+              <Link href="/platform" className="nav-link" onClick={closeMobileMenu}>VISION</Link>
+              <Link href="/upcoming-projects" className="nav-link" onClick={closeMobileMenu}>UPCOMING PROJECTS</Link>
+              <Link href="/gallery" className="nav-link" onClick={closeMobileMenu}>GALLERY</Link>
+              <Link href="/get-involved" className="nav-link" onClick={closeMobileMenu}>GET INVOLVED</Link>
+              <Link href="/contribute" className="nav-link" onClick={closeMobileMenu}>SUPPORT THE CAUSE</Link>
             </nav>
           )}
         </div>
       </header>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

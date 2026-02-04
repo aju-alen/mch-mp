@@ -1,5 +1,8 @@
-import  { useState } from 'react';
-import axios from 'axios';
+'use client'
+
+import { useState } from 'react'
+import axios from 'axios'
+import { BACKEND_URL } from '../utils/ipUrl'
 
 const VolunteerPage = () => {
   const [formData, setFormData] = useState({
@@ -96,7 +99,7 @@ const VolunteerPage = () => {
     setIsSubmitting(true);
     
     try { 
-      const sendVolunteerResponse = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/volunteer/submit`, formData);
+      const sendVolunteerResponse = await axios.post(`${BACKEND_URL}/api/volunteer/submit`, formData);
       setSuccessMessage(sendVolunteerResponse.data.message);
       
       // Reset form

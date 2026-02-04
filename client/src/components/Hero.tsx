@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import Link from 'next/link'
+
 const Hero = () => {
   return (
     <div className="relative h-screen flex items-center justify-center bg-[url('https://dubaianalytica.com/wp-content/uploads/2025/03/112_1.15.2.jpg')] bg-cover bg-center bg-no-repeat">
@@ -41,9 +42,9 @@ const Hero = () => {
             justify-center 
             xl:justify-start
           ">
-            <NavLink to="/contribute" className="btn-primary w-full sm:w-auto text-center max-w-[300px] mx-auto xl:mx-0">
+            <Link href="/contribute" className="btn-primary w-full sm:w-auto text-center max-w-[300px] mx-auto xl:mx-0">
               SUPPORT THE CAUSE
-            </NavLink>
+            </Link>
             <a
               href="/get-involved"
               className="border-2 

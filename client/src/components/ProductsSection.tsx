@@ -1,8 +1,10 @@
-import  { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const ProductShowcase = () => {
-  const navigate = useNavigate();
+  const router = useRouter()
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -179,8 +181,8 @@ const ProductShowcase = () => {
       <div className="mt-8">
         <button 
           onClick={() => {
-            navigate('/gallery');
-            window.scrollTo(0, 0);
+            router.push('/gallery')
+            window.scrollTo(0, 0)
           }}
           className="w-full bg-red-600 text-white py-3 rounded-lg font-bold uppercase 
           tracking-wider hover:bg-red-700 transition-colors shadow-md"

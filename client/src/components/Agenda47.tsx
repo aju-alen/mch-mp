@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from 'next/link'
 
 const Agenda47 = () => {
   return (
@@ -24,7 +24,7 @@ const Agenda47 = () => {
             To make clear that commitment, my proposal offers the Samia people the 2027 Future-Proof Funyula Platform to Make Funyula Constituency sustainable, and restore the fabric of our glorious Samia! It is a vision that begins with the following nine focus points that I will accomplish very quickly post the 2027 election win. I will collaborate with professionals from the community, respected elder statesmen and women of Samia, and both elected and appointed officials, including Permanent Secretaries (PSs), Principal Secretaries (PSs), Provincial Commissioners (PCs), Deputy County Commissioners (DCs), District Officers (DOs), Members of Parliament (MPs), Members of County Assembly (MCAs), Councillors, and Chiefs from the Constituency.
             </p>
             <Link
-              to="/platform"
+              href="/platform"
               className="inline-flex items-center border border-trump-light-accent text-trump-light-accent hover:bg-trump-light-accent hover:text-white px-8 py-3 uppercase font-bold transition-colors"
             >
               <span>PLATFORM</span>

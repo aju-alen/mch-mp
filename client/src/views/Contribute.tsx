@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { Helmet } from 'react-helmet-async';
-import { VITE_BACKEND_URL, CONTRIBUTE_SHARE_URL } from '../utils/ipUrl'
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
+import { BACKEND_URL, CONTRIBUTE_SHARE_URL } from '../utils/ipUrl'
 
 const Contribute = () => {
   const [formData, setFormData] = useState({
@@ -63,7 +64,7 @@ const Contribute = () => {
   // Poll for payment status
   const checkPaymentStatus = async (checkoutRequestID) => {
     try {
-      const response = await axios.get(`${VITE_BACKEND_URL}/api/dajaria/status/${checkoutRequestID}`);
+      const response = await axios.get(`${BACKEND_URL}/api/dajaria/status/${checkoutRequestID}`);
 
       if (response.data.status === 'success') {
         setPaymentStatus('success');
@@ -147,7 +148,7 @@ const Contribute = () => {
         amount: formData.amount
       };
 
-      const response = await axios.post(`${VITE_BACKEND_URL}/api/dajaria/stkpush`, payload);
+      const response = await axios.post(`${BACKEND_URL}/api/dajaria/stkpush`, payload);
 
       if (response.data.status && response.data.checkoutRequestID) {
         setMessage('Payment request sent! Please check your phone and enter your M-Pesa PIN.');
@@ -195,31 +196,8 @@ const Contribute = () => {
   };
 
   const ogImage = 'https://i.postimg.cc/cL5MWGTh/logo.png';
-  const title = 'Make a Contribution';
-  const description = 'Support Michael H. Mugenya 2027 by making a secure contribution via M-Pesa. Quick and easy mobile payment process.';
-  const pageTitle = `${title} | Michael H. Mugenya 2027`;
-
   return (
     <>
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={description} />
-        <link rel="canonical" href={CONTRIBUTE_SHARE_URL} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content={CONTRIBUTE_SHARE_URL} />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:image:secure_url" content={ogImage} />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:alt" content={title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Michael H. Mugenya 2027" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={ogImage} />
-        <meta name="twitter:image:alt" content={title} />
-      </Helmet>
       <div className="max-w-md mx-auto p-6 bg-white rounded shadow-md">
         <h2 className="text-xl font-bold mb-4">Make a Contribution</h2>
 

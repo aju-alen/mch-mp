@@ -1,36 +1,44 @@
-import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  RecaptchaVerifier, 
-  signInWithPhoneNumber,
-  PhoneAuthProvider
-} from 'firebase/auth';
+import { initializeApp, FirebaseApp } from 'firebase/app'
+import {
+  getAuth,
+  Auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from 'firebase/auth'
 
-// Your Firebase configuration
-// Replace with your actual Firebase config
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
-};
+let app: FirebaseApp | null = null
+let auth: Auth | null = null
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+function getFirebaseAuth(): Auth {
+  if (typeof window === 'undefined') {
+    throw new Error('Firebase auth is only available in the browser')
+  }
+  if (auth) return auth
+  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY
+  if (!apiKey) {
+    throw new Error('Missing NEXT_PUBLIC_FIREBASE_API_KEY')
+  }
+  const firebaseConfig = {
+    apiKey,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+  }
+  app = initializeApp(firebaseConfig)
+  auth = getAuth(app)
+  return auth
+}
 
 // Function to set up reCAPTCHA verifier
 export const setupRecaptcha = (elementId: string) => {
-  // Clear any existing reCAPTCHA
-  const existingRecaptcha = document.getElementById(elementId);
+  const authInstance = getFirebaseAuth()
+  const existingRecaptcha = document.getElementById(elementId)
   if (existingRecaptcha) {
-    existingRecaptcha.innerHTML = '';
+    existingRecaptcha.innerHTML = ''
   }
-  
-  // Create a new reCAPTCHA verifier
-  return new RecaptchaVerifier(auth, elementId, {
+  return new RecaptchaVerifier(authInstance, elementId, {
     size: 'normal', // Change from 'invisible' to 'normal' for better visibility
     callback: (response) => {
       // reCAPTCHA solved, allow signInWithPhoneNumber.
@@ -50,7 +58,7 @@ export const sendVerificationCode = async (phoneNumber: string, recaptchaVerifie
     await recaptchaVerifier.render();
     
     // Send the verification code
-    const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+    const confirmationResult = await signInWithPhoneNumber(getFirebaseAuth(), phoneNumber, recaptchaVerifier)
     return confirmationResult;
   } catch (error) {
     console.error('Error sending verification code:', error);
@@ -69,4 +77,4 @@ export const verifyCode = async (confirmationResult: any, code: string) => {
   }
 };
 
-export { auth }; 
+export { getFirebaseAuth as getAuth } 

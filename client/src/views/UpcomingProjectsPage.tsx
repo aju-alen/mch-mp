@@ -1,5 +1,6 @@
-import  { useState } from 'react';
+'use client'
 
+import { useState } from 'react'
 
 const Upcomingprojectspage = () => {
   const [page, setPage] = useState(1);

@@ -1,6 +1,8 @@
-import  { useState, useMemo } from 'react';
+'use client'
+
+import { useState, useMemo } from 'react'
 import { newsItems } from '../utils/newsData';
-import { Link } from 'react-router-dom';
+import Link from 'next/link'
 
 const NewsPage = () => {
   const [page, setPage] = useState(1);
@@ -181,7 +183,7 @@ const NewsPage = () => {
             {currentPageItems.map(item => (
               <Link
                 key={item.id}
-                to={item.link}
+                href={item.link}
                 className="block border-b border-gray-200 pb-6 hover:bg-gray-50 transition duration-150"
               >
                 {/* <div className="text-sm text-gray-600">{item.date}</div> */}
