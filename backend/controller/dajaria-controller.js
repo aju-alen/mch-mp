@@ -115,8 +115,8 @@ export const stkpush = async(req,res)=>{
             PartyB: businessShortCode,
             PhoneNumber: normalizedPhone,
             CallBackURL: getCallbackUrl(),
-            AccountReference: accountNumber || "DEFAULT_REF",
-            TransactionDesc: "Mpesa Daraja API stk push test",
+            AccountReference: "Mugenya 2027",
+            TransactionDesc: "Contribution to Michael Mugenya 2027",
           },
           {
             headers: {
