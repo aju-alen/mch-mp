@@ -8,12 +8,12 @@ const CONTRIBUTE_SHARE_URL =
 export const metadata = {
   title: 'Make a Contribution | Michael H. Mugenya 2027',
   description:
-    'Support Michael H. Mugenya 2027 by making a secure contribution via M-Pesa. Quick and easy mobile payment process.',
+    'Support the Funyula future vision by contributing to the campaign of Michael Mugenya, MP 2027.',
   alternates: { canonical: CONTRIBUTE_SHARE_URL },
   openGraph: {
     title: 'Make a Contribution',
     description:
-      'Support Michael H. Mugenya 2027 by making a secure contribution via M-Pesa. Quick and easy mobile payment process.',
+      'Support the Funyula future vision by contributing to the campaign of Michael Mugenya, MP 2027.',
     url: CONTRIBUTE_SHARE_URL,
     siteName: 'Michael H. Mugenya 2027',
     images: [{ url: 'https://i.postimg.cc/cL5MWGTh/logo.png', alt: 'Make a Contribution' }],
@@ -23,7 +23,7 @@ export const metadata = {
     card: 'summary_large_image' as const,
     title: 'Make a Contribution',
     description:
-      'Support Michael H. Mugenya 2027 by making a secure contribution via M-Pesa. Quick and easy mobile payment process.',
+      'Support the Funyula future vision by contributing to the campaign of Michael Mugenya, MP 2027.',
     images: ['https://i.postimg.cc/cL5MWGTh/logo.png'],
   },
 }
